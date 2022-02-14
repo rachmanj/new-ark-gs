@@ -14,13 +14,24 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="#" class="nav-link">Asset</a>
+          <a href="#" class="nav-link">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Upload</a>
+          <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+            <li><a href="{{ route('powitheta.index') }}" class="dropdown-item">PO With ETA </a></li>
+            <li><a href="#" class="dropdown-item">GRPO History</a></li>
+            <li><a href="#" class="dropdown-item">MIGI</a></li>
+            <li><a href="#" class="dropdown-item">Incoming Inventory</a></li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Admin</a>
           <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
             <li><a href="#" class="dropdown-item">Activate User </a></li>
             <li><a href="#" class="dropdown-item">User List</a></li>
+            <li><a href="#" class="dropdown-item">Roles</a></li>
+            <li><a href="#" class="dropdown-item">Permission</a></li>
           </ul>
         </li>
       </ul>

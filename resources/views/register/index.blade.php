@@ -20,7 +20,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <a href="#"><b>ARK</b>GS</a>
+    <a href="#"><b>ARKA</b> - GS</a>
   </div>
 
   <div class="card">
@@ -72,13 +72,13 @@
         </div>
 
         <div class="form-group">
-          <select name="project_id" class="form-control select2bs4 @error('project_id') is-invalid @enderror" style="width: 100%;">
+          <select name="project_code" class="form-control select2bs4 @error('project_code') is-invalid @enderror" style="width: 100%;">
             <option value="">-- select project --</option>
             @foreach ($projects as $project)
-              <option {{ old('project_id') == $project->id ? "selected" : "" }} value="{{ $project->id }}">{{ $project->project_code }}</option>
+              <option {{ old('project_code') == $project['project_code'] ? "selected" : "" }} value="{{ $project['project_code'] }}">{{ $project['project_code'] }}</option>
             @endforeach
           </select>
-          @error('project_id')
+          @error('project_code')
             <div class="invalid-feedback">
               {{ $message }}
             </div>

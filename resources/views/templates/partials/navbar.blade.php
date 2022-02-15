@@ -21,7 +21,7 @@
           <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
             <li><a href="{{ route('powitheta.index') }}" class="dropdown-item">PO With ETA </a></li>
             <li><a href="{{ route('grpo.index') }}" class="dropdown-item">GRPO History</a></li>
-            <li><a href="#" class="dropdown-item">MIGI</a></li>
+            <li><a href="{{ route('migi.index') }}" class="dropdown-item">MIGI</a></li>
             <li><a href="#" class="dropdown-item">Incoming Inventory</a></li>
           </ul>
         </li>

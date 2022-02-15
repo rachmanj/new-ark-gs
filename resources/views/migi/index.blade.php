@@ -1,11 +1,11 @@
 @extends('templates.main')
 
 @section('title_page')
-    <h1>GRPO</h1>
+    <h1>MIGI (MI and GI)</h1>
 @endsection
 
 @section('breadcrumb_title')
-    grpo
+    migi
 @endsection
 
 @section('content')
@@ -19,29 +19,24 @@
                 {{ Session::get('success') }}
               </div>
             @endif
-            <a href="{{ route('grpo.index') }}">This Month</a> |
-            <a href="#"><b>THIS YEAR </b></a>
-            <a href="{{ route('grpo.export_this_year') }}" class="btn btn-sm btn-info float-right"><i class="fas fa-save"></i> Export to Excel</a>
+            <a href="#"><b>THIS MONTH </b></a> | 
+            <a href="{{ route('migi.index_this_year') }}">This Year</a>
+            <a href="{{ route('migi.truncate') }}" class="btn btn-sm btn-danger float-right" onclick="return confirm('Are You sure You want to delete all records?')"><i class="fas fa-trash"></i> Truncate Table</a>
+            <button class="btn btn-sm btn-success float-right mx-2" data-toggle="modal" data-target="#modal-upload"><i class="fas fa-upload"></i> Upload</button>
+            <a href="{{ route('migi.export_this_month') }}" class="btn btn-sm btn-info float-right"><i class="fas fa-save"></i> Export to Excel</a>
           </div>
           <div class="card-body">
-            <table class="table table-bordered table-striped" id="grpo">
+            <table class="table table-bordered table-striped" id="migi">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>PO No</th>
-                  {{-- <th>Delivery D</th> --}}
-                  <th>GRPO No</th>
-                  <th>GRPO D</th>
-                  <th>Vendor Code</th>
-                  <th>Unit No</th>
-                  <th>Item Code</th>
-                  <th>UOM</th>
-                  <th>Qty</th>
-                  <th>Curr</th>
-                  <th>Amount</th>
+                  <th>Doc No</th>
+                  <th>Doc Type</th>
+                  <th>Post D</th>
                   <th>Project</th>
-                  {{-- <th>Dept</th> --}}
-                  {{-- <th></th> --}}
+                  <th>Item</th>
+                  <th>Qty</th>
+                  <th>Uom</th>
                 </tr>
               </thead>
             </table>
@@ -54,12 +49,12 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title"> GRPO Upload</h4>
+            <h4 class="modal-title"> MIGI Upload</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="{{ route('grpo.import_excel') }}" enctype="multipart/form-data" method="POST">
+          <form action="{{ route('migi.import_excel') }}" enctype="multipart/form-data" method="POST">
             @csrf
           <div class="modal-body">
               <label>Pilih file excel</label>
@@ -98,35 +93,24 @@
 
   <script>
     $(function () {
-      $("#grpo").DataTable({
+      $("#migi").DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{{ route('grpo.data.this_year') }}',
+        ajax: '{{ route('migi.data') }}',
         columns: [
           {data: 'DT_RowIndex', orderable: false, searchable: false},
-          {data: 'po_no'},
-          // {data: 'po_date'},
-          // {data: 'po_delivery_date'},
-          // {data: 'po_delivery_status'},
-          {data: 'grpo_no'},
-          {data: 'grpo_date'},
-          {data: 'vendor_code'},
-          {data: 'unit_no'},
-          {data: 'item_code'},
-          {data: 'uom'},
-          // {data: 'description'},
-          {data: 'qty'},
-          {data: 'grpo_currency'},
-          // {data: 'unit_price'},
-          {data: 'item_amount'},
+          {data: 'doc_no'},
+          {data: 'doc_type'},
+          {data: 'posting_date'},
           {data: 'project_code'},
-          // {data: 'dept_code'},
-          // {data: 'action'},
+          {data: 'item_code'},
+          {data: 'qty'},
+          {data: 'uom'},
         ],
         fixedHeader: true,
         columnDefs: [
               {
-                "targets": [8, 10],
+                "targets": [6],
                 "className": "text-right"
               }
             ]

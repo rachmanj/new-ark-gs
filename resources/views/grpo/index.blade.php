@@ -43,7 +43,7 @@
                   <th>Amount</th>
                   <th>Project</th>
                   {{-- <th>Dept</th> --}}
-                  <th></th>
+                  {{-- <th></th> --}}
                 </tr>
               </thead>
             </table>
@@ -123,7 +123,7 @@
           {data: 'item_amount'},
           {data: 'project_code'},
           // {data: 'dept_code'},
-          {data: 'action'},
+          // {data: 'action'},
         ],
         fixedHeader: true,
         columnDefs: [

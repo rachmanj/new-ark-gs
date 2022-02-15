@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GrpoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IncomingController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MigiController;
 use App\Http\Controllers\PowithetaController;
@@ -55,5 +56,17 @@ Route::middleware('auth')->prefix('migi')->name('migi.')->group(function () {
     Route::get('/this_year', [MigiController::class, 'index_this_year'])->name('index_this_year');
     Route::get('/{id}', [MigiController::class, 'show'])->name('show');
     Route::post('/import_excel', [MigiController::class, 'import_excel'])->name('import_excel');
+});
+
+Route::middleware('auth')->prefix('incoming')->name('incoming.')->group(function () {
+    Route::get('/export_this_month', [IncomingController::class, 'export_this_month'])->name('export_this_month');
+    Route::get('/export_this_year', [IncomingController::class, 'export_this_year'])->name('export_this_year');
+    Route::get('/data', [IncomingController::class, 'data'])->name('data');
+    Route::get('/data/this_year', [IncomingController::class, 'data_this_year'])->name('data.this_year');
+    Route::get('/', [IncomingController::class, 'index'])->name('index');
+    Route::get('/truncate', [IncomingController::class, 'truncate'])->name('truncate');
+    Route::get('/this_year', [IncomingController::class, 'index_this_year'])->name('index_this_year');
+    Route::get('/{id}', [IncomingController::class, 'show'])->name('show');
+    Route::post('/import_excel', [IncomingController::class, 'import_excel'])->name('import_excel');
 });
 

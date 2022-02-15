@@ -1,0 +1,1 @@
+<a href="{{ route('powitheta.show', $model->id) }}"><i class="fas fa-search"></i></a>

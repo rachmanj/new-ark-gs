@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GrpoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PowithetaController;
@@ -29,5 +30,17 @@ Route::middleware('auth')->prefix('powitheta')->name('powitheta.')->group(functi
     Route::get('/this_year', [PowithetaController::class, 'index_this_year'])->name('index_this_year');
     Route::get('/{id}', [PowithetaController::class, 'show'])->name('show');
     Route::post('/import_excel', [PowithetaController::class, 'import_excel'])->name('import_excel');
+});
+
+Route::middleware('auth')->prefix('grpo')->name('grpo.')->group(function () {
+    Route::get('/export_this_month', [GrpoController::class, 'export_this_month'])->name('export_this_month');
+    Route::get('/export_this_year', [GrpoController::class, 'export_this_year'])->name('export_this_year');
+    Route::get('/data', [GrpoController::class, 'data'])->name('data');
+    Route::get('/data/this_year', [GrpoController::class, 'data_this_year'])->name('data.this_year');
+    Route::get('/', [GrpoController::class, 'index'])->name('index');
+    Route::get('/truncate', [GrpoController::class, 'truncate'])->name('truncate');
+    Route::get('/this_year', [GrpoController::class, 'index_this_year'])->name('index_this_year');
+    Route::get('/{id}', [GrpoController::class, 'show'])->name('show');
+    Route::post('/import_excel', [GrpoController::class, 'import_excel'])->name('import_excel');
 });
 

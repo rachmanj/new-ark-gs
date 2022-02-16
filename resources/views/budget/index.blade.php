@@ -48,17 +48,43 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="{{ route('grpo.import_excel') }}" enctype="multipart/form-data" method="POST">
+          <form action="{{ route('budget.store') }}" method="POST">
             @csrf
           <div class="modal-body">
-              <label>Pilih file excel</label>
               <div class="form-group">
-                <input type="file" name='file_upload' required class="form-control">
+                <label>Month</label>
+                <input type="month" name='date' class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Type</label>
+                <select name="budget_type_id" class="form-control">
+                  <option value="">-- select type --</option>
+                  @foreach ($budget_types as $item)
+                      <option value="{{ $item->id }}">{{ $item->display_name }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Project Code</label>
+                <select name="project_code" class="form-control">
+                  <option value="">-- Select Project --</option>
+                  @foreach ($projects as $item)
+                    <option value="{{ $item['project_code'] }}">{{ $item['project_code'] }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Amount</label>
+                <input type="text" name='amount' class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Remarks</label>
+                <textarea name="remarks" cols="30" rows="2" class="form-control"></textarea>
               </div>
           </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary"> Upload</button>
+          <div class="modal-footer float-left">
+            <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"> Close</button>
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Save</button>
           </div>
         </form>
         </div>
@@ -94,7 +120,7 @@
           {data: 'DT_RowIndex', orderable: false, searchable: false},
           {data: 'date'},
           {data: 'project_code'},
-          {data: 'budget_name'},
+          {data: 'budget_type'},
           {data: 'amount'},
           {data: 'action'},
         ],

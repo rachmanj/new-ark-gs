@@ -72,17 +72,13 @@ Route::middleware('auth')->prefix('incoming')->name('incoming.')->group(function
     Route::post('/import_excel', [IncomingController::class, 'import_excel'])->name('import_excel');
 });
 
-Route::middleware('auth')->prefix('budget')->name('budget.')->group(function () {
-    Route::resource('/', BudgetController::class);
-    Route::get('/data', [BudgetController::class, 'data'])->name('data');
+Route::middleware('auth')->group(function () {
+    Route::get('budget/data', [BudgetController::class, 'data'])->name('budget.data');
+    Route::resource('budget', BudgetController::class);
 });
 
-Route::middleware('auth')->prefix('budget_type')->name('budget_type.')->group(function () {
-    Route::get('/', [BudgetTypeController::class, 'index'])->name('index');
-    Route::get('/{id}/edit', [BudgetTypeController::class, 'edit'])->name('edit');
-    Route::put('/{id}', [BudgetTypeController::class, 'update'])->name('update');
-    Route::post('/', [BudgetTypeController::class, 'store'])->name('store');
-    Route::delete('/', [BudgetTypeController::class, 'destroy'])->name('destroy');
-    Route::get('/data', [BudgetTypeController::class, 'data'])->name('data');
+Route::middleware('auth')->group(function () {
+    Route::get('budget_type/data', [BudgetTypeController::class, 'data'])->name('budget_type.data');
+    Route::resource('budget_type', BudgetTypeController::class);
 });
 

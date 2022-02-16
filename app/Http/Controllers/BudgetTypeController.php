@@ -52,6 +52,12 @@ class BudgetTypeController extends Controller
         return redirect()->route('budget_type.index')->with('success', 'Budget Type deleted successfully.');
     }
 
+    public function show($id)
+    {
+        $budget_type = BudgetType::findOrFail($id);
+        return view('budget_type.show', compact('budget_type'));
+    }
+
     public function data()
     {
         $list = BudgetType::latest()->get();

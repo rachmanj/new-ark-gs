@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\BudgetTypeController;
 use App\Http\Controllers\GrpoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IncomingController;
@@ -68,5 +70,19 @@ Route::middleware('auth')->prefix('incoming')->name('incoming.')->group(function
     Route::get('/this_year', [IncomingController::class, 'index_this_year'])->name('index_this_year');
     Route::get('/{id}', [IncomingController::class, 'show'])->name('show');
     Route::post('/import_excel', [IncomingController::class, 'import_excel'])->name('import_excel');
+});
+
+Route::middleware('auth')->prefix('budget')->name('budget.')->group(function () {
+    Route::resource('/', BudgetController::class);
+    Route::get('/data', [BudgetController::class, 'data'])->name('data');
+});
+
+Route::middleware('auth')->prefix('budget_type')->name('budget_type.')->group(function () {
+    Route::get('/', [BudgetTypeController::class, 'index'])->name('index');
+    Route::get('/{id}/edit', [BudgetTypeController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [BudgetTypeController::class, 'update'])->name('update');
+    Route::post('/', [BudgetTypeController::class, 'store'])->name('store');
+    Route::delete('/', [BudgetTypeController::class, 'destroy'])->name('destroy');
+    Route::get('/data', [BudgetTypeController::class, 'data'])->name('data');
 });
 

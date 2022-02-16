@@ -3,6 +3,7 @@
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetTypeController;
 use App\Http\Controllers\GrpoController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IncomingController;
 use App\Http\Controllers\LoginController;
@@ -80,5 +81,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('budget_type/data', [BudgetTypeController::class, 'data'])->name('budget_type.data');
     Route::resource('budget_type', BudgetTypeController::class);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('history/data', [HistoryController::class, 'data'])->name('history.data');
+    Route::resource('history', HistoryController::class);
 });
 

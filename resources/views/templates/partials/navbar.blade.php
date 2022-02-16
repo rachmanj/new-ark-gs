@@ -30,6 +30,7 @@
           <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
             <li><a href="{{ route('budget.index') }}" class="dropdown-item">Input Budget</a></li>
             <li><a href="{{ route('budget_type.index') }}" class="dropdown-item">Budget Type</a></li>
+            <li><a href="{{ route('history.index') }}" class="dropdown-item">Histories</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">

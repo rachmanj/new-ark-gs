@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetTypeController;
+use App\Http\Controllers\DashboardMonthlyController;
 use App\Http\Controllers\GrpoController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
@@ -23,6 +24,13 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+
+Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/monthly', [DashboardMonthlyController::class, 'index'])->name('monthly.index');
+    Route::post('/monthly', [DashboardMonthlyController::class, 'display'])->name('monthly.display');
+    
 });
 
 Route::middleware('auth')->prefix('powitheta')->name('powitheta.')->group(function () {

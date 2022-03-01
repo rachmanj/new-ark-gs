@@ -1,21 +1,23 @@
 <div class="card">
   <div class="card-header border-transparent">
-    <h3 class="card-title"><b>NPI</b></h3>
+    <h3 class="card-title">NPI</h3>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table m-0">
         <thead>
           <tr>
+            <th>#</th>
             <th>Project</th>
             <th class="text-right">In</th>
             <th class="text-right">Out</th>
-            <th class="text-right">%</th>
+            <th class="text-center">%</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($projects as $project)
               <tr>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $project }}</td>
                 <td class="text-right">
                   {{ $histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first()->amount, 0) : '' }}
@@ -29,6 +31,7 @@
               </tr>
           @endforeach
           <tr>
+            <th></th>
             <th>Total</th>
             <th class="text-right">{{ number_format($histories->where('gs_type', 'incoming_qty')->sum('amount'), 0) }}</th>
             <th class="text-right">{{ number_format($histories->where('gs_type', 'outgoing_qty')->sum('amount'), 0) }}</th>

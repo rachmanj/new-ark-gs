@@ -4,6 +4,6 @@
     <li><a href="" class="dropdown-item">Dashboard1</a></li>
     <li><a href="" class="dropdown-item">Dashboard2</a></li>
     <li><a href="{{ route('dashboard.monthly.index') }}" class="dropdown-item">Monthly</a></li>
-    <li><a href="" class="dropdown-item">Yearly</a></li>
+    <li><a href="{{ route('dashboard.yearly.index') }}" class="dropdown-item">Yearly</a></li>
   </ul>
 </li>

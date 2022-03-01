@@ -11,7 +11,8 @@ class BudgetController extends Controller
 {
     public function index()
     {
-        $projects = Http::get('http://localhost:5000/projects')->json()['data'];
+        // $projects = Http::get('http://localhost:5000/projects')->json()['data'];
+        $projects = ['011C', '017C', '021C', '022C', 'APS'];
         $budget_types = BudgetType::orderBy('display_name')->get();
 
         return view('budget.index', compact('projects', 'budget_types'));
@@ -24,12 +25,12 @@ class BudgetController extends Controller
 
     public function store(Request $request)
     {
-        $test = $request->validate([
+        $request->validate([
             'date' => 'required',
             'budget_type_id' => 'required',
             'project_code' => 'required',
             'amount' => 'required',
-            'remarks' => 'string',
+            // 'remarks' => 'string',
         ]);
 
         // return $test;

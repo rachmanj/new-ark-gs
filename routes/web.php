@@ -3,6 +3,7 @@
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetTypeController;
 use App\Http\Controllers\DashboardMonthlyController;
+use App\Http\Controllers\DashboardYearlyController;
 use App\Http\Controllers\GrpoController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/monthly', [DashboardMonthlyController::class, 'index'])->name('monthly.index');
     Route::post('/monthly', [DashboardMonthlyController::class, 'display'])->name('monthly.display');
+
+    Route::get('/yearly', [DashboardYearlyController::class, 'index'])->name('yearly.index');
+    Route::post('/yearly', [DashboardYearlyController::class, 'display'])->name('yearly.display');
     
 });
 

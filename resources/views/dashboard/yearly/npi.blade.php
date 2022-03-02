@@ -11,7 +11,7 @@
             <th>Project</th>
             <th class="text-right">In</th>
             <th class="text-right">Out</th>
-            <th class="text-center">%</th>
+            <th class="text-right">index</th>
           </tr>
         </thead>
         <tbody>

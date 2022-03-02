@@ -7,35 +7,32 @@
       <table class="table m-0">
         <thead>
           <tr>
-            <th>#</th>
             <th>Project</th>
             <th class="text-right">PO Sent</th>
             <th class="text-right">GRPO</th>
-            <th class="text-center">%</th>
+            <th class="text-right">%</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($projects as $project)
               <tr>
-                <td>{{ $loop->iteration }}</td>
                 <td>{{ $project }}</td>
                 <td class="text-right">
-                  {{ $po_sent->where('project_code', $project) ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / 1000, 2) : '' }}
+                  {{ $po_sent->where('project_code', $project)->count() > 0 ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / 1000, 2) : '-' }}
                 </td>
                 <td class="text-right">
-                  {{ $grpo_amount->where('project_code', $project) ? number_format($grpo_amount->where('project_code', $project)->sum('item_amount') / 1000, 2) : '' }}
+                  {{ $grpo->where('project_code', $project)->count() > 0 ? number_format($grpo->where('project_code', $project)->sum('item_amount') / 1000, 2) : '-' }}
                 </td>
                 <td class="text-right">
-                  {{ $po_sent->where('project_code', $project) &&  $grpo_amount->where('project_code', $project)->count() > 0 ? number_format($grpo_amount->where('project_code', $project)->sum('item_amount') / $po_sent->where('project_code', $project)->sum('item_amount') * 100, 2) : '' }}
+                  {{ $grpo->where('project_code', $project)->count() > 0 &&  $po_sent->where('project_code', $project)->count() > 0 ? number_format($grpo->where('project_code', $project)->sum('item_amount') / $po_sent->where('project_code', $project)->sum('item_amount') * 100, 2) : '-' }}
                 </td>
               </tr>
           @endforeach
           <tr>
-            <th></th>
             <th>Total</th>
             <th class="text-right">{{ number_format($po_sent->sum('item_amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format($grpo_amount->sum('item_amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format(($grpo_amount->sum('item_amount') / $po_sent->sum('item_amount')) * 100, 2) }}</th>
+            <th class="text-right">{{ number_format($grpo->sum('item_amount') / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format(($grpo->sum('item_amount') / $po_sent->sum('item_amount')) * 100, 2) }}</th>
           </tr>
         </tbody>
       </table>

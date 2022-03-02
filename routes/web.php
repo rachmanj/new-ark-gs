@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetTypeController;
+use App\Http\Controllers\DashboardDailyController;
 use App\Http\Controllers\DashboardMonthlyController;
 use App\Http\Controllers\DashboardYearlyController;
 use App\Http\Controllers\GrpoController;
@@ -29,6 +30,8 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/daily', [DashboardDailyController::class, 'index'])->name('daily.index');
+
     Route::get('/monthly', [DashboardMonthlyController::class, 'index'])->name('monthly.index');
     Route::post('/monthly', [DashboardMonthlyController::class, 'display'])->name('monthly.display');
 

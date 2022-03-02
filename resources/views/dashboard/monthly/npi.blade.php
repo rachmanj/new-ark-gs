@@ -10,7 +10,7 @@
             <th>Project</th>
             <th class="text-right">In</th>
             <th class="text-right">Out</th>
-            <th class="text-right">%</th>
+            <th class="text-right">index</th>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
             <th>Total</th>
             <th class="text-right">{{ number_format($histories->where('gs_type', 'incoming_qty')->sum('amount'), 0) }}</th>
             <th class="text-right">{{ number_format($histories->where('gs_type', 'outgoing_qty')->sum('amount'), 0) }}</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'incoming_qty')->sum('amount') / $histories->where('gs_type', 'outgoing_qty')->sum('amount'), 2) }}</th>
+            <th class="text-right">{{ $histories->where('gs_type', 'incoming_qty')->count() > 0 && $histories->where('gs_type', 'outgoing_qty')->count() > 0 ? number_format($histories->where('gs_type', 'incoming_qty')->sum('amount') / $histories->where('gs_type', 'outgoing_qty')->sum('amount'), 2) : '-' }}</th>
           </tr>
         </tbody>
       </table>

@@ -1,10 +1,10 @@
-<div class="card">
+<div class="card card-info">
   <div class="card-header border-transparent">
     <h3 class="card-title"><b>PO Sent vs Plant Budget</b> <small>(IDR 000)</small></h3>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
-      <table class="table m-0">
+      <table class="table m-0 table-striped">
         <thead>
           <tr>
             <th>#</th>

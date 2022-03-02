@@ -78,8 +78,8 @@
                 <label>Project Code</label>
                 <select name="project_code" class="form-control">
                   <option value="">-- Select Project --</option>
-                  @foreach ($projects as $item)
-                    <option value="{{ $item['project_code'] }}">{{ $item['project_code'] }}</option>
+                  @foreach ($projects as $project)
+                    <option value="{{ $project }}">{{ $project }}</option>
                   @endforeach
                 </select>
               </div>

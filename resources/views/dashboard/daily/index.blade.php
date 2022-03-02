@@ -16,6 +16,8 @@
           @include('dashboard.daily.row1')
         </div>
 
+        <hr>
+
         <div class="row">
           <div class="col-6">
             @include('dashboard.daily.budget')
@@ -26,6 +28,8 @@
           </div>
 
         </div>
+
+        <hr>
 
         <div class="row">
           <div class="col-6">

@@ -16,8 +16,8 @@ class DashboardDailyController extends Controller
         $npi = $this->incoming_qty()->sum('qty') / $this->outgoing_qty()->sum('qty');
         $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
 
-        // $po_sent = $this->po_sent_amount()->where('project_code', '017C')->sum('item_amount');
-        // return $po_sent;
+        // $incoming_qty = $this->incoming_qty()->where('project_code', '022C')->sum('qty');
+        // return $incoming_qty;
         // die;
 
         return view('dashboard.daily.index', [
@@ -81,7 +81,7 @@ class DashboardDailyController extends Controller
 
     public function incoming_qty()
     {
-        $date = Carbon::now()->subDay();
+        $date = Carbon::now()->subDays(3);
 
         $incl_deptcode = ['40', '50', '60', '140'];
 

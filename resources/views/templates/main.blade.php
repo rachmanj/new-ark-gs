@@ -2,7 +2,7 @@
 
 <html lang="en">
   @include('templates.partials.head')
-<body class="hold-transition layout-top-nav">
+<body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
 
   @include('templates.partials.navbar')

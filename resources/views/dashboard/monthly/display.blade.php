@@ -20,7 +20,7 @@
                 <div class="input-group mb-3">
                   <input type="month" name="month" class="form-control rounded-0" value="{{ $month }}">
                   <span class="input-group-append">
-                    <button type="submit" class="btn btn-info btn-flat">Go!</button>
+                    <button type="submit" class="btn btn-success btn-flat">Go!</button>
                   </span>
                 </div>
               </div>

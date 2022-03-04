@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -34,7 +36,8 @@ class UserController extends Controller
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        User::create($validatedData);
+        $user = User::create($validatedData);
+        $user->assignRole('user');
 
         return redirect()->route('users.index')->with('success', 'New User successfuly created!!');
     }
@@ -46,10 +49,15 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
         $projects = ['000H', '001H', '011C', '017C', '021C', '022C', '023C', 'APS'];
+        $user = User::find($id);
+        $roles = Role::all();
+        $userRoles = $user->getRoleNames()->toArray();
+        // $userRoles = $user->roles->pluck('id','id')->first();
+        $permissions = Permission::all();
+        $userPermissions = $user->getPermissionNames()->toArray();
 
-        return view('users.edit', compact('user', 'projects'));
+        return view('users.edit', compact('user', 'projects', 'roles', 'userRoles'));
     }
 
     public function update(Request $request, $id)
@@ -81,6 +89,8 @@ class UserController extends Controller
 
         $user->save();
 
+        $user->syncRoles($request->input('role'));
+
         return redirect()->route('users.index')->with('success', 'User successfuly updated!!');
 
     }
@@ -93,6 +103,7 @@ class UserController extends Controller
             return redirect()->route('users.index')->with('error', 'You cannot delete this user');
         }
 
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted');

@@ -30,7 +30,8 @@ class RegisterController extends Controller
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        User::create($validatedData);
+        $user = User::create($validatedData);
+        $user->assignRole('user');
 
         return redirect()->route('login')->with('success', 'Register success!!');
     }

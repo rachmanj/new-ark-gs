@@ -15,4 +15,5 @@ class Budget extends Model
     {
         return $this->belongsTo(BudgetType::class);
     }
+
 }

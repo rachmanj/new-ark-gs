@@ -16,7 +16,9 @@
         @include('templates.partials.menu.dashboard')
         @include('templates.partials.menu.upload')
         @include('templates.partials.menu.budget')
+        @hasanyrole('superadmin')
         @include('templates.partials.menu.admin')
+        @endhasanyrole
       </ul>
     </div>
 

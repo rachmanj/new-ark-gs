@@ -12,15 +12,17 @@ class BudgetController extends Controller
     public function index()
     {
         // $projects = Http::get('http://localhost:5000/projects')->json()['data'];
-        $projects = ['011C', '017C', '021C', '022C', 'APS'];
+        $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
         $budget_types = BudgetType::orderBy('display_name')->get();
 
         return view('budget.index', compact('projects', 'budget_types'));
     }
 
-    public function create()
+    public function show($id)
     {
-        //
+        $budget = Budget::find($id);
+
+        return view('budget.show', compact('budget'));
     }
 
     public function store(Request $request)
@@ -50,7 +52,8 @@ class BudgetController extends Controller
     public function edit($id)
     {
         $budget = Budget::find($id);
-        $projects = Http::get('http://localhost:5000/projects')->json()['data'];
+        // $projects = Http::get('http://localhost:5000/projects')->json()['data'];
+        $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
         $budget_types = BudgetType::orderBy('display_name')->get();
 
         return view('budget.edit', compact('budget', 'projects', 'budget_types'));

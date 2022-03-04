@@ -19,7 +19,9 @@
                 {{ Session::get('success') }}
               </div>
             @endif
+            @can('create_budget')
             <button href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal-input"><i class="fas fa-plus"></i> Budget</button>
+            @endcan
           </div> <!-- /.card-header -->
           <div class="card-body">
             <table class="table table-bordered table-striped" id="budget">

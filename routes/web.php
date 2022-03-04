@@ -13,6 +13,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MigiController;
 use App\Http\Controllers\PowithetaController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -28,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
+    Route::resource('users', UserController::class);
+});
 
 Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/daily', [DashboardDailyController::class, 'index'])->name('daily.index');

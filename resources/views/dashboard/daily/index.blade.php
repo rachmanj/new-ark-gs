@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('title_page')
-    <h1>Dashboard (This Month)</h1>
+    <h1>Dashboard <small>(This Month)</small></h1> 
 @endsection
 
 @section('breadcrumb_title')

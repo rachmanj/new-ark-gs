@@ -37,6 +37,7 @@ class UserController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         $user = User::create($validatedData);
+        $user->update(['is_active' => 1]);
         $user->assignRole('user');
 
         return redirect()->route('users.index')->with('success', 'New User successfuly created!!');
@@ -53,7 +54,6 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::all();
         $userRoles = $user->getRoleNames()->toArray();
-        // $userRoles = $user->roles->pluck('id','id')->first();
         $permissions = Permission::all();
         $userPermissions = $user->getPermissionNames()->toArray();
 

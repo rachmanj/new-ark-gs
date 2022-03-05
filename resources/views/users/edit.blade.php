@@ -80,7 +80,7 @@
               <div class="col-12">
                 <div class="form-group">
                   <label for="password_confirmation">Password Confirmation</label>
-                  <input type="password_confirmation" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror">
+                  <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror">
                   @error('password_confirmation')
                   <div class="invalid-feedback">
                     {{ $message }}

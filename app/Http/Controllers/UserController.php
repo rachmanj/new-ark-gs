@@ -69,18 +69,16 @@ class UserController extends Controller
             'project_code'  => 'required',
         ]);
 
+        $user = User::find($id);
+
         if ($request->password) {
             $this->validate($request, [
                 'password'      => 'min:6',
                 'password_confirmation' => 'required_with:password|same:password|min:6'
             ]);
 
-            $request->merge(['password' => Hash::make($request->password)]);
-        } else {
-            $request->request->remove('password');
-        }
-
-        $user = User::find($id);
+            $user->password = Hash::make($request->password);
+        } 
 
         $user->name = $request->name;
         $user->username = $request->username;

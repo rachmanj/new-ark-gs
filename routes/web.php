@@ -4,6 +4,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetTypeController;
 use App\Http\Controllers\DashboardDailyController;
 use App\Http\Controllers\DashboardMonthlyController;
+use App\Http\Controllers\DashboardOtherController;
 use App\Http\Controllers\DashboardYearlyController;
 use App\Http\Controllers\GrpoController;
 use App\Http\Controllers\HistoryController;
@@ -57,6 +58,8 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
 
     Route::get('/yearly', [DashboardYearlyController::class, 'index'])->name('yearly.index');
     Route::post('/yearly', [DashboardYearlyController::class, 'display'])->name('yearly.display');
+
+    Route::get('/other', [DashboardOtherController::class, 'index'])->name('other.index');
     
 });
 

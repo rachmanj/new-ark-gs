@@ -37,14 +37,6 @@
           </div>
         </div>
 
-        <hr>
-
-        <div class="row">
-          <div class="col-12">
-            @include('dashboard.daily.static_v_dynamic')
-          </div>
-        </div>
-
       </div>
     </div>
 @endsection

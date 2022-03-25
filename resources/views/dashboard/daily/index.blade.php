@@ -1,7 +1,8 @@
 @extends('templates.main')
 
 @section('title_page')
-    <h1>Dashboard <small>(This Month)</small></h1> 
+    <h1>Dashboard <small>(This Month)</small></h1>
+    Report Date: {{ $report_date }} 
 @endsection
 
 @section('breadcrumb_title')

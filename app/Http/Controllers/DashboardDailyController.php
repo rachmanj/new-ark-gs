@@ -19,6 +19,7 @@ class DashboardDailyController extends Controller
          
 
         return view('dashboard.daily.index', [
+            'report_date' => Carbon::now()->subDay()->format('d-M-Y'),
             'projects' => $projects,
             'po_sent_vs_budget' => $po_sent_vs_budget,
             'po_sent_vs_grpo' => $po_sent_vs_grpo,

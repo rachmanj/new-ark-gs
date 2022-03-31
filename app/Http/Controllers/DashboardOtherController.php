@@ -38,7 +38,8 @@ class DashboardOtherController extends Controller
     {
         $incl_deptcode = ['40', '50', '60', '140'];
 
-        $excl_itemcode = ['CO%', 'EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%'];
+        // $excl_itemcode = ['CO%', 'EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%'];
+        $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%'];
         foreach ($excl_itemcode as $e) {
             $excl_itemcode_arr[] = ['item_code', 'not like', $e];
         };

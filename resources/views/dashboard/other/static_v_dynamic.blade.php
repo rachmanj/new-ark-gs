@@ -27,7 +27,10 @@
                   <td class="text-right">
                     {{ $static_posent->where('project_code', $project)->where('month', $item->month)->first() ? number_format($static_posent->where('project_code', $project)->where('month', $item->month)->first()->amount / 1000, 0) : '-' }}
                   </td>
-                  <td class="text-right">
+                  <td class="text-right
+                  {{ $static_posent->where('project_code', $project)->where('month', $item->month)->first() ?
+                     $static_posent->where('project_code', $project)->where('month', $item->month)->first()->amount - $dynamic_posent->where('project_code', $project)->where('month', $item->month)->sum('item_amount') > 100 ? 'text-red' : '' : ''
+                  }} ">
                     {{ $dynamic_posent->where('project_code', $project)->where('month', $item->month)->count() > 0 ? number_format($dynamic_posent->where('project_code', $project)->where('month', $item->month)->sum('item_amount') / 1000, 0) : '-' }}
                   </td>
                 @endforeach

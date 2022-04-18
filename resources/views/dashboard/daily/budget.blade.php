@@ -21,10 +21,10 @@
                   {{ $po_sent->where('project_code', $project)->count() > 0 ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / 1000, 2) : '-' }}
                 </td>
                 <td class="text-right">
-                  {{ $plant_budget->where('project_code', $project)->first() ? number_format($plant_budget->where('project_code', $project)->first()->amount / 1000, 2) : '-' }}
+                  {{ $plant_budget->where('project_code', $project)->first() ? number_format($plant_budget->where('project_code', $project)->sum('amount') / 1000, 2) : '-' }}
                 </td>
                 <td class="text-right">
-                  {{ $po_sent->where('project_code', $project)->count() > 0 && $plant_budget->where('project_code', $project)->first() ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / $plant_budget->where('project_code', $project)->first()->amount * 100, 2) : '-' }}
+                  {{ $po_sent->where('project_code', $project)->count() > 0 && $plant_budget->where('project_code', $project)->first() ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / $plant_budget->where('project_code', $project)->sum('amount') * 100, 2) : '-' }}
                 </td>
               </tr>
           @endforeach

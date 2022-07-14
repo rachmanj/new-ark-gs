@@ -38,6 +38,35 @@ class GrpoExport implements FromCollection, WithHeadings
 
     public function collection()
     {   
-        return Grpo::whereMonth('grpo_date', Carbon::now())->get();
+        $date = Carbon::now();
+        $projects = [
+            '011C', 
+            '017C', 
+            '021C', 
+            '022C',
+            '023C',
+            'APS'
+        ];
+
+        return $this->grpo_amount($date, $projects)->get();
+        // return Grpo::whereMonth('grpo_date', Carbon::now())->get();
+    }
+
+    public function grpo_amount($date, $projects)
+    {
+        $incl_deptcode = ['40', '50', '60', '140'];
+        $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
+        foreach ($excl_itemcode as $e) {
+            $excl_itemcode_arr[] = ['item_code', 'not like', $e];
+        };
+
+        $list = Grpo::whereMonth('po_delivery_date', $date)
+            ->whereMonth('grpo_date', $date)
+            ->whereIn('project_code', $projects)
+            ->where('po_delivery_status', 'Delivered')
+            ->whereIn('dept_code', $incl_deptcode)
+            ->where($excl_itemcode_arr);
+
+        return $list;
     }
 }

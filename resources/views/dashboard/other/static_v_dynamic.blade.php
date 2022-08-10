@@ -1,6 +1,6 @@
 <div class="card card-info">
   <div class="card-header border-transparent">
-    <h3 class="card-title"><b>PO Sent: Static vs Dynamic Data</b> <small>(IDR Juta)</small></h3>
+    <h3 class="card-title"><b>PO Sent: Static vs Dynamic Data</b> <small>(IDR 000)</small></h3>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
@@ -25,19 +25,19 @@
                 <td>{{ date('F', strtotime('2022-' . $item->month . '-01')) }}</td>
                 @foreach ($projects as $project)
                   <td class="text-right">
-                    {{ $static_posent->where('project_code', $project)->where('month', $item->month)->first() ? number_format($static_posent->where('project_code', $project)->where('month', $item->month)->first()->amount / 1000000, 0) : '-' }}
+                    {{ $static_posent->where('project_code', $project)->where('month', $item->month)->first() ? number_format($static_posent->where('project_code', $project)->where('month', $item->month)->first()->amount / 1000, 0) : '-' }}
                   </td>
                   <td class="text-right
                   {{ $static_posent->where('project_code', $project)->where('month', $item->month)->first() ?
                      $static_posent->where('project_code', $project)->where('month', $item->month)->first()->amount - $dynamic_posent->where('project_code', $project)->where('month', $item->month)->sum('item_amount') > 100 ? 'text-red' : '' : ''
                   }} ">
-                    {{ $dynamic_posent->where('project_code', $project)->where('month', $item->month)->count() > 0 ? number_format($dynamic_posent->where('project_code', $project)->where('month', $item->month)->sum('item_amount') / 1000000, 0) : '-' }}
+                    {{ $dynamic_posent->where('project_code', $project)->where('month', $item->month)->count() > 0 ? number_format($dynamic_posent->where('project_code', $project)->where('month', $item->month)->sum('item_amount') / 1000, 0) : '-' }}
                   </td>
                 @endforeach
               </tr>
           @endforeach
         </tbody>
-        <tfoot>
+        {{-- <tfoot>
           <tr>
             <th>Total</th>
             @foreach ($projects as $project)
@@ -49,7 +49,7 @@
             </th>
             @endforeach
           </tr>
-        </tfoot>
+        </tfoot> --}}
       </table>
     </div>
   </div>

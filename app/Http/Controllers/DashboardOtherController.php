@@ -47,7 +47,7 @@ class DashboardOtherController extends Controller
         $dynamic_posent = DB::table('powithetas')
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
-            ->selectRaw('project_code, item_amount, substring(po_delivery_date, 6, 2) as month')
+            ->selectRaw('project_code, item_amount, substring(po_delivery_date, 6, 2) as month, po_status, po_delivery_status')
             ->where('po_status', '!=', 'Cancelled')
             ->where('po_delivery_status', 'Delivered');
             
@@ -61,5 +61,27 @@ class DashboardOtherController extends Controller
                 ->where('periode', 'monthly')
                 ->distinct('month')
                 ->get();
+    }
+
+    public function grpo()
+    {
+        $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+
+        return view('dashboard.other.index_grpo', [
+            'projects' => $projects,
+            'months' => $this->get_month(),
+            'dynamic_posent' => $this->dynamic_posent()->get(),
+        ]);
+    }
+
+    public function test()
+    {
+        $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $hasil =  $this->dynamic_posent()
+        ->where('project_code', '011C')
+        ->get()
+        ->where('month', 12);
+
+        return $hasil;
     }
 }

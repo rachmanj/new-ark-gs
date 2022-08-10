@@ -60,7 +60,8 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::post('/yearly', [DashboardYearlyController::class, 'display'])->name('yearly.display');
 
     Route::get('/other', [DashboardOtherController::class, 'index'])->name('other.index');
-    
+    Route::get('/other-grpo', [DashboardOtherController::class, 'grpo'])->name('other.grpo');
+    Route::get('/other-test', [DashboardOtherController::class, 'test'])->name('other.test');
 });
 
 Route::middleware('auth')->prefix('powitheta')->name('powitheta.')->group(function () {

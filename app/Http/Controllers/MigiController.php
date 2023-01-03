@@ -56,7 +56,7 @@ class MigiController extends Controller
         Excel::import(new MigiImport, public_path('/file_upload/'.$nama_file));
 
         // alihkan halaman kembali
-        return redirect()->route('migi.index')->with('status', 'Data Excel Berhasil Diimport!');
+        return redirect()->route('migi.index')->with('success', 'Data Excel Berhasil Diimport!');
     }
 
     public function export_this_month()
@@ -71,7 +71,8 @@ class MigiController extends Controller
 
     public function data()
     {
-        $list = Migi::whereMonth('posting_date', Carbon::now())
+        $list = Migi::whereYear('posting_date', Carbon::now())
+                ->whereMonth('posting_date', Carbon::now())
                 ->get();
 
         return datatables()->of($list)
@@ -84,7 +85,9 @@ class MigiController extends Controller
 
     public function data_this_year()
     {
-        $list = Migi::orderby('posting_date')->get();
+        $list = Migi::whereYear('posting_date', Carbon::now())
+            ->orderby('posting_date')
+            ->get();
 
         return datatables()->of($list)
                 ->editColumn('posting_date', function ($list) {

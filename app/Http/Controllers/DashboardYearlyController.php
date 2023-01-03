@@ -44,6 +44,7 @@ class DashboardYearlyController extends Controller
         if ($request->year !== 'this_year') {
             $year_title = $request->year;
             $plant_budget = $this->plant_budget($request->year);
+            // $plant_budget = $this->plant_budget();
             $histories = $this->yearly_history_amount($request->year);
 
             return view('dashboard.yearly.display', [
@@ -53,36 +54,18 @@ class DashboardYearlyController extends Controller
                 'plant_budget' => $plant_budget,
                 'histories' => $histories,
             ]);
-
         } else {
-            
-            // $po_sent = $this->po_sent_this_year()->where('project_code', '011C');
-            // $grpo_amount = $this->grpo_amount();
-            // $plant_budget = $this->plant_budget(Carbon::now()->year);
-            // return $po_sent;
-            // return $plant_budget->where('project_code', '011C');
-            // die;
-
             return view('dashboard.yearly.display', [
                 'year_title' => 'This Year',
                 'years' => $years,
                 'projects' => $projects,
                 'plant_budget' => $this->plant_budget(Carbon::now()->year),
-                'po_sent' => $this->po_sent_this_year(),
+                'po_sent' => $this->po_sent(),
                 'grpo_amount' => $this->grpo_amount(),
                 'incoming_qty' => $this->incoming_qty(),
                 'outgoing_qty' => $this->outgoing_qty()
             ]);
         }
-    }
-
-    public function plant_budget($date)
-    {
-        $year = substr($date, 0, 4);
-
-        return Budget::where('budget_type_id', 2)
-            ->whereYear('date', $year)
-            ->get();
     }
 
     public function yearly_history_amount($date)
@@ -96,35 +79,25 @@ class DashboardYearlyController extends Controller
         return $list;
     }
 
-    public function po_sent_this_year()
-    {
-        $incl_deptcode = ['40', '50', '60', '140'];
-
-        $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
-        foreach ($excl_itemcode as $e) {
-            $excl_itemcode_arr[] = ['item_code', 'not like', $e];
-        };
-
-        $list = Powitheta::whereIn('dept_code', $incl_deptcode) //
-                ->where($excl_itemcode_arr)
-                ->where('po_delivery_status', 'Delivered')
-                ->where('po_status', '!=', 'Cancelled')
-                ->get();
-
-        return $list;
-    }
-
     public function grpo_amount()
     {
+        $date = Carbon::now();
+
         $incl_deptcode = ['40', '50', '60', '140'];
         $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
             $excl_itemcode_arr[] = ['item_code', 'not like', $e];
         };
 
-        $list = Grpo::where('po_delivery_status', 'Delivered')
+        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+
+        $list = Grpo::select('project_code', DB::raw('SUM(item_amount) as amount'))
+            ->where('po_delivery_status', 'Delivered')
+            ->whereYear('grpo_date', $date)
+            ->whereIn('project_code', $include_project)
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
+            ->groupBy('project_code')
             ->get();
 
         return $list;
@@ -132,29 +105,92 @@ class DashboardYearlyController extends Controller
 
     public function incoming_qty()
     {
+        $date = Carbon::now();
+
         $incl_deptcode = ['40', '50', '60', '140'];
+        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
 
         $excl_itemcode = ['CO%', 'EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
             $excl_itemcode_arr[] = ['item_code', 'not like', $e];
         };
 
-        return Incoming::whereIn('dept_code', $incl_deptcode)
+        return Incoming::select('project_code', DB::raw('SUM(qty) as quantity'))
+            ->whereYear('posting_date', $date)
+            ->whereIn('project_code', $include_project)
+            ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
+            ->groupBy('project_code')
             ->get();
     }
 
     public function outgoing_qty() 
     {
+        $date = Carbon::now();
+
         $incl_deptcode = ['40', '50', '60', '140'];
+        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
 
         $excl_itemcode = ['CO%', 'EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
             $excl_itemcode_arr[] = ['item_code', 'not like', $e];
         };
 
-        return Migi::whereIn('dept_code', $incl_deptcode)
-                    ->where($excl_itemcode_arr)
-                    ->get();
+        return Migi::select('project_code', DB::raw('SUM(qty) as quantity'))
+            ->whereYear('posting_date', $date)
+            ->whereIn('project_code', $include_project)
+            ->whereIn('dept_code', $incl_deptcode)
+            ->where($excl_itemcode_arr)
+            ->groupBy('project_code')
+            ->get();
+    }
+
+    public function po_sent()
+    {
+        $date = Carbon::now();
+        $incl_deptcode = ['40', '50', '60', '140'];
+
+        $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
+        foreach ($excl_itemcode as $e) {
+            $excl_itemcode_arr[] = ['item_code', 'not like', $e];
+        };
+
+        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+
+        $list = Powitheta::select('project_code', DB::raw('SUM(item_amount) as amount') )
+                ->whereYear('po_delivery_date', $date)
+                ->whereIn('dept_code', $incl_deptcode) //
+                ->where($excl_itemcode_arr)
+                ->where('po_delivery_status', 'Delivered')
+                ->where('po_status', '<>', 'Cancelled')
+                ->whereIn('project_code', $include_project)
+                ->groupBy('project_code')
+                ->get();
+
+        return $list;
+    }
+
+    public function plant_budget($date)
+    {
+         $year = substr($date, 0, 4);
+        //  $date = Carbon::now()->subYear();
+
+         return Budget::select('project_code', DB::raw('SUM(amount) as budget_amount'))
+             ->where('budget_type_id', 2)
+             ->whereYear('date', $year)
+             ->groupBy('project_code')
+             ->get();
+    }
+
+    public function test()
+    {
+        // $year = substr($date, 0, 4);
+        $year = '2021';
+
+        $list = History::where('periode', 'yearly')
+                ->whereYear('date', $year)
+                ->get();
+
+        return $list;
     }
 }

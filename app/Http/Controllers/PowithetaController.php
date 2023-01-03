@@ -56,7 +56,7 @@ class PowithetaController extends Controller
         Excel::import(new PowithetaImport, public_path('/file_upload/'.$nama_file));
 
         // alihkan halaman kembali
-        return redirect()->route('powitheta.index')->with('status', 'Data Excel Berhasil Diimport!');
+        return redirect()->route('powitheta.index')->with('success', 'Data Excel Berhasil Diimport!');
     }
 
     public function export_this_month()
@@ -84,10 +84,10 @@ class PowithetaController extends Controller
                 ->whereMonth('po_delivery_date', $date)
                 ->orderBy('po_delivery_date', 'desc')
                 ->whereIn('project_code', $projects)
-                ->whereIn('dept_code', $incl_deptcode)
-                ->where($excl_itemcode_arr)
                 ->where('po_delivery_status', 'Delivered')
                 ->where('po_status', '!=', 'Cancelled')
+                ->whereIn('dept_code', $incl_deptcode)
+                ->where($excl_itemcode_arr)
                 ->get();
         
         return datatables()->of($list)
@@ -120,10 +120,10 @@ class PowithetaController extends Controller
         $list = Powitheta::whereYear('po_delivery_date', $date)
                 ->orderBy('po_delivery_date', 'desc')
                 ->whereIn('project_code', $projects)
-                ->whereIn('dept_code', $incl_deptcode)
-                ->where($excl_itemcode_arr)
                 ->where('po_delivery_status', 'Delivered')
                 ->where('po_status', '!=', 'Cancelled')
+                ->whereIn('dept_code', $incl_deptcode)
+                ->where($excl_itemcode_arr)
                 ->get();
         
         return datatables()->of($list)

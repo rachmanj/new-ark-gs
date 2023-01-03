@@ -56,7 +56,7 @@ class IncomingController extends Controller
         Excel::import(new IncomingImport, public_path('/file_upload/'.$nama_file));
 
         // alihkan halaman kembali
-        return redirect()->route('incoming.index')->with('status', 'Data Excel Berhasil Diimport!');
+        return redirect()->route('incoming.index')->with('success', 'Data Excel Berhasil Diimport!');
     }
 
     public function export_this_month()
@@ -71,7 +71,8 @@ class IncomingController extends Controller
 
     public function data()
     {
-        $list = Incoming::whereMonth('posting_date', Carbon::now())
+        $list = Incoming::whereYear('posting_date',  Carbon::now())
+                ->whereMonth('posting_date', Carbon::now())
                 ->get();
 
         return datatables()->of($list)
@@ -84,7 +85,9 @@ class IncomingController extends Controller
 
     public function data_this_year()
     {
-        $list = Incoming::orderby('posting_date')->get();
+        $list = Incoming::whereYear('posting_date',  Carbon::now())
+                ->orderby('posting_date')
+                ->get();
 
         return datatables()->of($list)
                 ->editColumn('posting_date', function ($list) {

@@ -20,13 +20,13 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $project }}</td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'po_sent')->first()->amount / 1000, 2) : '' }}
+                  {{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'po_sent')->first()->amount / 1000, 2) : '-' }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first()->amount / 1000, 2) : '' }}
+                  {{ $histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first()->amount / 1000, 2) : '-' }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first() &&  $histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first()->amount / $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first()->amount * 100, 2) : '' }}
+                  {{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first() &&  $histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first()->amount / $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first()->amount * 100, 2) : '-' }}
                 </td>
               </tr>
           @endforeach

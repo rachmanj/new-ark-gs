@@ -56,7 +56,7 @@ class GrpoController extends Controller
         Excel::import(new GrpoImport, public_path('/file_upload/'.$nama_file));
 
         // alihkan halaman kembali
-        return redirect()->route('grpo.index')->with('status', 'Data Excel Berhasil Diimport!');
+        return redirect()->route('grpo.index')->with('success', 'Data Excel Berhasil Diimport!');
     }
 
     public function export_this_month()
@@ -71,10 +71,8 @@ class GrpoController extends Controller
 
     public function data()
     {
-        $date = Carbon::now();
-
-        $list = Grpo::whereYear('grpo_date', $date)
-                ->whereMonth('grpo_date', $date)
+        $list = Grpo::whereYear('grpo_date', Carbon::now())
+                ->whereMonth('grpo_date', Carbon::now())
                 ->orderBy('grpo_date', 'desc')
                 ->get();
 
@@ -93,7 +91,9 @@ class GrpoController extends Controller
 
     public function data_this_year()
     {
-        $list = Grpo::orderBy('grpo_date', 'desc')->get();
+        $list = Grpo::whereYear('grpo_date', Carbon::now())
+                ->orderBy('grpo_date', 'desc')
+                ->get();
 
         return datatables()->of($list)
             ->editColumn('grpo_date', function ($list) {

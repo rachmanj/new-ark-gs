@@ -20,22 +20,22 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $project }}</td>
                 <td class="text-right">
-                  {{ $po_sent->where('project_code', $project) ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / 1000, 2) : '' }}
+                  {{ $po_sent->where('project_code', $project)->first() ? number_format($po_sent->where('project_code', $project)->first()->amount / 1000, 2) : '' }}
                 </td>
                 <td class="text-right">
-                  {{ $plant_budget->where('project_code', $project) ? number_format($plant_budget->where('project_code', $project)->sum('amount') / 1000, 2) : '' }}
+                  {{ $plant_budget->where('project_code', $project)->first() ? number_format($plant_budget->where('project_code', $project)->first()->budget_amount / 1000, 2) : '' }}
                 </td>
                 <td class="text-right">
-                  {{ $po_sent->where('project_code', $project)->count() > 0 && $plant_budget->where('project_code', $project)->count() > 0 ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / $plant_budget->where('project_code', $project)->sum('amount') * 100, 2) : '' }}
+                  {{ $po_sent->where('project_code', $project)->first() && $plant_budget->where('project_code', $project)->first() ? number_format($po_sent->where('project_code', $project)->first()->amount / $plant_budget->where('project_code', $project)->first()->budget_amount * 100, 2) : '' }}
                 </td>
               </tr>
           @endforeach
           <tr>
             <th></th>
             <th>Total</th>
-            <th class="text-right">{{ number_format($po_sent->sum('item_amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format($plant_budget->sum('amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format(($po_sent->sum('item_amount') / $plant_budget->sum('amount')) * 100, 2) }}</th>
+            <th class="text-right">{{ number_format($po_sent->sum('amount') / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format($plant_budget->sum('budget_amount') / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format(($po_sent->sum('amount') / $plant_budget->sum('budget_amount')) * 100, 2) }}</th>
           </tr>
         </tbody>
       </table>

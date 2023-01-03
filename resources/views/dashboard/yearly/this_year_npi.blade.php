@@ -20,22 +20,22 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $project }}</td>
                 <td class="text-right">
-                  {{ $incoming_qty->where('project_code', $project) ? number_format($incoming_qty->where('project_code', $project)->sum('qty'), 0) : '' }}
+                  {{ $incoming_qty->where('project_code', $project)->first() ? number_format($incoming_qty->where('project_code', $project)->first()->quantity, 0) : '' }}
                 </td>
                 <td class="text-right">
-                  {{ $outgoing_qty->where('project_code', $project) ? number_format($outgoing_qty->where('project_code', $project)->sum('qty'), 0) : '' }}
+                  {{ $outgoing_qty->where('project_code', $project)->first() ? number_format($outgoing_qty->where('project_code', $project)->first()->quantity, 0) : '' }}
                 </td>
                 <td class="text-right">
-                  {{ $incoming_qty->where('project_code', $project)->count() > 0 &&  $outgoing_qty->where('project_code', $project)->count() > 0 ? number_format($incoming_qty->where('project_code', $project)->sum('qty') / $outgoing_qty->where('project_code', $project)->sum('qty'), 2) : '' }}
+                  {{ $incoming_qty->where('project_code', $project)->first() && $outgoing_qty->where('project_code', $project)->first() ? number_format($incoming_qty->where('project_code', $project)->first()->quantity / $outgoing_qty->where('project_code', $project)->first()->quantity, 2) : '' }}
                 </td>
               </tr>
           @endforeach
           <tr>
             <th></th>
             <th>Total</td>
-            <th class="text-right">{{ number_format($incoming_qty->sum('qty'), 0) }}</th>
-            <th class="text-right">{{ number_format($outgoing_qty->sum('qty'), 0) }}</th>
-            <th class="text-right">{{ number_format($incoming_qty->sum('qty') / $outgoing_qty->sum('qty'), 2) }}</th>
+            <th class="text-right">{{ number_format($incoming_qty->sum('quantity'), 0) }}</th>
+            <th class="text-right">{{ number_format($outgoing_qty->sum('quantity'), 0) }}</th>
+            <th class="text-right">{{ $incoming_qty->sum('quantity') && $outgoing_qty->sum('quantity') ? number_format($incoming_qty->sum('quantity') / $outgoing_qty->sum('quantity'), 2) : '-' }}</th>
           </tr>
         </tbody>
       </table>

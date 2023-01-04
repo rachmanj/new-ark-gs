@@ -17,11 +17,11 @@ class GrpoImport implements ToModel, WithHeadingRow
     {
         return new Grpo([
             'po_no' => $row['po_no'],
-            'po_date' => $row['po_date'],
-            'po_delivery_date' => $row['po_delivery_date'],
+            'po_date' => $this->convert_date($row['po_date']),
+            'po_delivery_date' => $this->convert_date($row['po_delivery_date']),
+            'grpo_date' => $this->convert_date($row['grpo_date']),
             'po_delivery_status' => $row['po_delivery_status'],
             'grpo_no' => $row['grpo_no'],
-            'grpo_date' => $row['grpo_date'],
             'vendor_code' => $row['vendor_code'],
             'unit_no' => $row['unit_no'],
             'item_code' => $row['item_code'],
@@ -35,5 +35,18 @@ class GrpoImport implements ToModel, WithHeadingRow
             'dept_code' => $row['dept_code'],
             'remarks' => $row['remarks']
         ]);
+    }
+
+    public function convert_date($date)
+    {
+        if ($date) {
+            $year = substr($date, 6, 4);
+            $month = substr($date, 3, 2);
+            $day = substr($date, 0, 2);
+            $new_date = $year . '-' . $month . '-' . $day;
+            return $new_date;
+        } else {
+            return null;
+        }
     }
 }

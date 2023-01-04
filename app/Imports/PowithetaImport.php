@@ -17,8 +17,10 @@ class PowithetaImport implements ToModel, WithHeadingRow
     {
         return new Powitheta([
             'po_no'                 => $row['po_no'],
-            'create_date'           => $row['create_date'],
-            'posting_date'          => $row['posting_date'],
+            'create_date'           => $this->convert_date($row['create_date']),
+            'posting_date'          => $this->convert_date($row['posting_date']),
+            'po_delivery_date'      => $this->convert_date($row['po_delivery_date']),
+            'po_eta'                => $this->convert_date($row['po_eta']),
             'vendor_code'           => $row['vendor_code'],
             'unit_no'               => $row['unit_no'],
             'item_code'             => $row['item_code'],
@@ -34,8 +36,19 @@ class PowithetaImport implements ToModel, WithHeadingRow
             'po_with_vat'           => $row['po_with_vat'],
             'po_status'             => $row['po_status'],
             'po_delivery_status'    => $row['po_delivery_status'],
-            'po_delivery_date'      => $row['po_delivery_date'],
-            'po_eta'                => $row['po_eta'],
         ]);
+    }
+
+    public function convert_date($date)
+    {
+        if ($date) {
+            $year = substr($date, 6, 4);
+            $month = substr($date, 3, 2);
+            $day = substr($date, 0, 2);
+            $new_date = $year . '-' . $month . '-' . $day;
+            return $new_date;
+        } else {
+            return null;
+        }
     }
 }

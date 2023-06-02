@@ -32,7 +32,7 @@
             <th>Total</th>
             <th class="text-right">{{ number_format($po_sent->sum('item_amount') / 1000, 2) }}</th>
             <th class="text-right">{{ number_format($grpo->sum('item_amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format(($grpo->sum('item_amount') / $po_sent->sum('item_amount')) * 100, 2) }}</th>
+            <th class="text-right">{{ $grpo->sum('item_amount') > 0 && $po_sent->sum('item_amount') > 1 ? number_format(($grpo->sum('item_amount') / $po_sent->sum('item_amount')) * 100, 2) : '-' }}</th>
           </tr>
         </tbody>
       </table>

@@ -42,10 +42,10 @@
             <th>Total</th>
             @foreach ($projects as $project)
             <th class="text-right">
-              {{ number_format($static_posent->where('project_code', $project)->sum('amount') / 1000000, 0) }}
+              {{ number_format($static_posent->where('project_code', $project)->sum('amount') / 1000, 0) }}
             </th>
             <th class="text-right">
-              {{ number_format($dynamic_posent->where('project_code', $project)->sum('item_amount') / 1000000, 0) }}
+              {{ number_format($dynamic_posent->where('project_code', $project)->sum('item_amount') / 1000, 0) }}
             </th>
             @endforeach
           </tr>

@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardDailyController extends Controller
 {
+
+    public $include_projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+
     public function index()
     {
         $po_sent_vs_budget = ($this->po_sent_amount()->sum('item_amount') / $this->plant_budget()->sum('amount')) * 100;
-        $po_sent_vs_grpo = ($this->grpo_amount()->sum('item_amount') / $this->po_sent_amount()->sum('item_amount')) * 100;
+        $po_sent_vs_grpo = $this->po_sent_amount()->sum('item_amount') > 0 && $this->grpo_amount()->sum('item_amount') > 0 ? ($this->grpo_amount()->sum('item_amount') / $this->po_sent_amount()->sum('item_amount')) * 100 : 0;
         $npi = $this->incoming_qty()->sum('qty') / $this->outgoing_qty()->sum('qty');
         $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
          
@@ -36,6 +39,7 @@ class DashboardDailyController extends Controller
     {
         $date = Carbon::now()->subDay();
         $incl_deptcode = ['40', '50', '60', '140'];
+        $projects = $this->include_projects;
 
         $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
@@ -43,6 +47,7 @@ class DashboardDailyController extends Controller
         };
 
         $list = DB::table('powithetas')
+            ->whereIn('project_code', $projects)
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
             ->whereMonth('po_delivery_date', $date)
@@ -63,6 +68,7 @@ class DashboardDailyController extends Controller
     public function grpo_amount()
     {
         $date = Carbon::now()->subDay();
+        $projects = $this->include_projects;
         $incl_deptcode = ['40', '50', '60', '140'];
         $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
@@ -72,6 +78,7 @@ class DashboardDailyController extends Controller
         $list = Grpo::whereMonth('po_delivery_date', $date)
             ->whereMonth('grpo_date', $date)
             ->where('po_delivery_status', 'Delivered')
+            ->whereIn('project_code', $projects)
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr);
 
@@ -80,7 +87,7 @@ class DashboardDailyController extends Controller
 
     public function incoming_qty()
     {
-        $date = Carbon::now()->subDays(3);
+        $date = Carbon::now()->subDay();
 
         $incl_deptcode = ['40', '50', '60', '140'];
 

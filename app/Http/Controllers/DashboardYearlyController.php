@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardYearlyController extends Controller
 {
+    public $include_projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+
     public function index()
     {
         $now = Carbon::now();
@@ -39,7 +41,7 @@ class DashboardYearlyController extends Controller
                 ->distinct('date')
                 ->get();
 
-        $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $projects = $this->include_projects;
 
         if ($request->year !== 'this_year') {
             $year_title = $request->year;
@@ -89,12 +91,12 @@ class DashboardYearlyController extends Controller
             $excl_itemcode_arr[] = ['item_code', 'not like', $e];
         };
 
-        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $projects = $this->include_projects;
 
         $list = Grpo::select('project_code', DB::raw('SUM(item_amount) as amount'))
             ->where('po_delivery_status', 'Delivered')
             ->whereYear('grpo_date', $date)
-            ->whereIn('project_code', $include_project)
+            ->whereIn('project_code', $projects)
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
             ->groupBy('project_code')
@@ -108,7 +110,7 @@ class DashboardYearlyController extends Controller
         $date = Carbon::now();
 
         $incl_deptcode = ['40', '50', '60', '140'];
-        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $projects = $this->include_projects;
 
         $excl_itemcode = ['CO%', 'EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
@@ -117,7 +119,7 @@ class DashboardYearlyController extends Controller
 
         return Incoming::select('project_code', DB::raw('SUM(qty) as quantity'))
             ->whereYear('posting_date', $date)
-            ->whereIn('project_code', $include_project)
+            ->whereIn('project_code', $projects)
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
             ->groupBy('project_code')
@@ -129,7 +131,7 @@ class DashboardYearlyController extends Controller
         $date = Carbon::now();
 
         $incl_deptcode = ['40', '50', '60', '140'];
-        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $projects = $this->include_projects;
 
         $excl_itemcode = ['CO%', 'EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
         foreach ($excl_itemcode as $e) {
@@ -138,7 +140,7 @@ class DashboardYearlyController extends Controller
 
         return Migi::select('project_code', DB::raw('SUM(qty) as quantity'))
             ->whereYear('posting_date', $date)
-            ->whereIn('project_code', $include_project)
+            ->whereIn('project_code', $projects)
             ->whereIn('dept_code', $incl_deptcode)
             ->where($excl_itemcode_arr)
             ->groupBy('project_code')
@@ -155,7 +157,7 @@ class DashboardYearlyController extends Controller
             $excl_itemcode_arr[] = ['item_code', 'not like', $e];
         };
 
-        $include_project = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $projects = $this->include_projects;
 
         $list = Powitheta::select('project_code', DB::raw('SUM(item_amount) as amount') )
                 ->whereYear('po_delivery_date', $date)
@@ -163,7 +165,7 @@ class DashboardYearlyController extends Controller
                 ->where($excl_itemcode_arr)
                 ->where('po_delivery_status', 'Delivered')
                 ->where('po_status', '<>', 'Cancelled')
-                ->whereIn('project_code', $include_project)
+                ->whereIn('project_code', $projects)
                 ->groupBy('project_code')
                 ->get();
 

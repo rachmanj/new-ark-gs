@@ -23,11 +23,11 @@
             <a href="{{ route('grpo.index_this_year') }}">This Year</a>
 
             @can('upload_data')
-            <a href="{{ route('grpo.truncate') }}" class="btn btn-sm btn-danger float-right" onclick="return confirm('Are You sure You want to delete all records?')"><i class="fas fa-trash"></i> Truncate Table</a>
-            <button class="btn btn-sm btn-success float-right mx-2" data-toggle="modal" data-target="#modal-upload"><i class="fas fa-upload"></i> Upload</button>
+            <a href="{{ route('grpo.truncate') }}" class="btn btn-sm btn-danger float-right {{ $is_data === 1 ? "" : "disabled" }}" onclick="return confirm('Are You sure You want to delete all records?')"><i class="fas fa-trash"></i> Truncate Table</a>
+            <button class="btn btn-sm btn-success float-right mx-2" data-toggle="modal" data-target="#modal-upload" {{ $is_data === 1 ? "disabled" : "" }}><i class="fas fa-upload"></i> Upload</button>
             @endcan
             
-            <a href="{{ route('grpo.export_this_month') }}" class="btn btn-sm btn-info float-right"><i class="fas fa-save"></i> Export to Excel</a>
+            <a href="{{ route('grpo.export_this_month') }}" class="btn btn-sm btn-info float-right {{ $is_data === 1 ? "" : "disabled" }}"><i class="fas fa-save"></i> Export to Excel</a>
           </div>
           <div class="card-body">
             <table class="table table-bordered table-striped" id="grpo">

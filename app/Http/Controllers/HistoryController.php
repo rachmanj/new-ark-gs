@@ -64,7 +64,11 @@ class HistoryController extends Controller
 
     public function data()
     {
-        $list = History::orderBy('date', 'desc')->orderBy('project_code', 'asc')->get();
+        $list = History::orderBy('periode', 'asc')
+                ->orderBy('date', 'desc')
+                ->orderBy('gs_type', 'asc')
+                ->orderBy('project_code', 'asc')
+                ->get();
 
         return datatables()->of($list)
             ->editColumn('date', function ($list) {

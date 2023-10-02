@@ -14,7 +14,9 @@ class GrpoController extends Controller
 {
     public function index()
     {
-        return view('grpo.index');
+        $is_data = Grpo::exists() ? 1 : 0;
+
+        return view('grpo.index', compact('is_data'));
     }
 
     public function index_this_year()

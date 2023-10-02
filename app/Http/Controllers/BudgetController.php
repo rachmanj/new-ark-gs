@@ -91,6 +91,7 @@ class BudgetController extends Controller
     public function data()
     {
         $list = Budget::orderBy('date', 'desc')
+                ->orderBy('budget_type_id', 'asc')
                 ->get();
 
         return datatables()->of($list)

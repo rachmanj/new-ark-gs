@@ -14,7 +14,9 @@ class IncomingController extends Controller
 {
     public function index()
     {
-        return view('incoming.index');
+        $is_data = Incoming::exists() ? 1 : 0;
+
+        return view('incoming.index', compact('is_data'));
     }
 
     public function index_this_year()

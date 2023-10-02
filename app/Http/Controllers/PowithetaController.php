@@ -14,7 +14,9 @@ class PowithetaController extends Controller
 {
     public function index()
     {
-        return view('powitheta.index');
+        $is_data = Powitheta::exists() ? 1 : 0;
+
+        return view('powitheta.index', compact('is_data'));
     }
 
     public function index_this_year()

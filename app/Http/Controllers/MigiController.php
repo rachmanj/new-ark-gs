@@ -14,7 +14,9 @@ class MigiController extends Controller
 {
     public function index()
     {
-        return view('migi.index');
+        $is_data = Migi::exists() ? 1 : 0;
+
+        return view('migi.index', compact('is_data'));
     }
 
     public function index_this_year()

@@ -48,11 +48,18 @@ class CapexController extends Controller
         $total_budget = array_sum(array_column($capex, 'budget'));
         $total_sent = array_sum(array_column($capex, 'sent_amount'));
 
+        // percentage of capex budget vs sent amount, if budget or sent amount is null
+        if ($total_budget == 0 || $total_sent == 0) {
+            $percentage = 0;
+        } else {
+            $percentage = $total_sent / $total_budget;
+        }
+        
         $result = [
             'capex' => $capex,
             'budget_total' => $total_budget,
             'sent_total' => $total_sent,
-            'percentage' => ($total_sent / $total_budget)
+            'percentage' => $percentage
         ];
 
         return $result;
@@ -93,11 +100,18 @@ class CapexController extends Controller
         $total_budget = array_sum(array_column($reguler, 'budget'));
         $total_sent = array_sum(array_column($reguler, 'sent_amount'));
 
+        // percentage of capex budget vs sent amount, if budget or sent amount is null
+        if ($total_budget == 0 || $total_sent == 0) {
+            $percentage = 0;
+        } else {
+            $percentage = $total_sent / $total_budget;
+        }
+
         $result = [
             'reguler' => $reguler,
             'budget_total' => $total_budget,
             'sent_total' => $total_sent,
-            'percentage' => $total_sent / $total_budget
+            'percentage' => $percentage
         ];
 
         return $result;

@@ -30,6 +30,8 @@
               <dd class="col-sm-8">{{ $powitheta->item_code }}</dd>
               <dt class="col-sm-4 text-right">Item Desc</dt>
               <dd class="col-sm-8">{{ $powitheta->description }}</dd>
+              <dt class="col-sm-4 text-right">Budget Type</dt>
+              <dd class="col-sm-8">{{ $powitheta->budget_type }}</dd>
               <dt class="col-sm-4 text-right">UOM</dt>
               <dd class="col-sm-8">{{ $powitheta->uom }}</dd>
               <dt class="col-sm-4 text-right">Qty</dt>

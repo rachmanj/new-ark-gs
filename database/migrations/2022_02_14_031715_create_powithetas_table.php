@@ -36,6 +36,7 @@ class CreatePowithetasTable extends Migration
             $table->date('po_delivery_date')->nullable();
             $table->date('po_eta')->nullable();
             $table->text('remarks')->nullable();
+            $table->string('budget_type')->nullable();
             $table->timestamps();
         });
     }

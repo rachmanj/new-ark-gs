@@ -35,11 +35,11 @@
                 <tr>
                   <th>#</th>
                   <th>PO</th>
-                  <th>PostDate</th>
                   <th>DeliverDate</th>
                   <th>Project</th>
                   <th>UnitNo</th>
                   <th>Item</th>
+                  <th>BudgetType</th>
                   <th>IDR</th>
                   <th>action</th>
                 </tr>
@@ -105,11 +105,11 @@
         columns: [
           {data: 'DT_RowIndex', orderable: false, searchable: false},
           {data: 'po_no'},
-          {data: 'posting_date'},
           {data: 'po_delivery_date'},
           {data: 'project_code'},
           {data: 'unit_no'},
           {data: 'item_code'},
+          {data: 'budget_type'},
           {data: 'item_amount'},
           {data: 'action'},
         ],

@@ -19,8 +19,9 @@ class DashboardDailyController extends Controller
         $po_sent_vs_grpo = $this->po_sent_amount()->sum('item_amount') > 0 && $this->grpo_amount()->sum('item_amount') > 0 ? ($this->grpo_amount()->sum('item_amount') / $this->po_sent_amount()->sum('item_amount')) * 100 : 0;
         $npi = $this->incoming_qty()->sum('qty') / $this->outgoing_qty()->sum('qty');
         $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $capex_daily = app(CapexController::class)->capex_daily();
+        $reguler_daily = app(CapexController::class)->reguler_daily();
          
-
         return view('dashboard.daily.index', [
             'report_date' => Carbon::now()->subDay()->format('d-M-Y'),
             'projects' => $projects,
@@ -32,6 +33,8 @@ class DashboardDailyController extends Controller
             'grpo' => $this->grpo_amount()->get(),
             'incoming_qty' => $this->incoming_qty()->get(),
             'outgoing_qty' => $this->outgoing_qty()->get(),
+            'capex_daily' => $capex_daily,
+            'reguler_daily' => $reguler_daily
         ]);
     }
 
@@ -115,6 +118,15 @@ class DashboardDailyController extends Controller
                     ->whereIn('dept_code', $incl_deptcode)
                     ->where($excl_itemcode_arr);
 
+    }
+
+    public function plant_budget_capex()
+    {
+        $date = Carbon::now()->subDay();
+        return Budget::where('budget_type_id', 2)
+            ->where('budget_type', 'CPX')
+            ->whereYear('date', $date)
+            ->whereMonth('date', $date);
     }
     
 }

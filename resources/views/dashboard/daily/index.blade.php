@@ -21,7 +21,8 @@
 
         <div class="row">
           <div class="col-6">
-            @include('dashboard.daily.budget')
+            {{-- @include('dashboard.daily.budget') --}}
+            @include('dashboard.daily.reguler')
           </div>
 
           <div class="col-6">
@@ -35,6 +36,10 @@
         <div class="row">
           <div class="col-6">
             @include('dashboard.daily.npi')
+          </div>
+
+          <div class="col-6">
+            @include('dashboard.daily.capex')
           </div>
         </div>
 

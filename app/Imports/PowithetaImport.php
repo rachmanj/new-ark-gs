@@ -36,6 +36,7 @@ class PowithetaImport implements ToModel, WithHeadingRow
             'po_with_vat'           => $row['po_with_vat'],
             'po_status'             => $row['po_status'],
             'po_delivery_status'    => $row['po_delivery_status'],
+            'budget_type'           => $row['budget_type'],
         ]);
     }
 

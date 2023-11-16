@@ -17,6 +17,7 @@ use App\Http\Controllers\PowithetaController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -119,4 +120,5 @@ Route::middleware('auth')->group(function () {
     Route::get('history/data', [HistoryController::class, 'data'])->name('history.data');
     Route::resource('history', HistoryController::class);
 
+    Route::get('/test', [TestController::class, 'index'])->name('index');
 });

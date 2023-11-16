@@ -34,6 +34,7 @@ class PowithetaExport implements FromCollection, WithHeadings
         'po_delivery_date',
         'po_eta',
         'remarks',
+        'budget_type',
         'created_at',
         'updated_at',
       ];

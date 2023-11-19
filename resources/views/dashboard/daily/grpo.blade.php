@@ -14,25 +14,25 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($projects as $project)
+          @foreach ($grpo_daily['grpo_daily'] as $item)
               <tr>
-                <td>{{ $project }}</td>
+                <td>{{ $item['project'] }}</td>
                 <td class="text-right">
-                  {{ $po_sent->where('project_code', $project)->count() > 0 ? number_format($po_sent->where('project_code', $project)->sum('item_amount') / 1000, 2) : '-' }}
+                  {{ number_format($item['po_sent_amount'] / 1000, 2) }}
                 </td>
                 <td class="text-right">
-                  {{ $grpo->where('project_code', $project)->count() > 0 ? number_format($grpo->where('project_code', $project)->sum('item_amount') / 1000, 2) : '-' }}
+                  {{ number_format($item['grpo_amount'] / 1000, 2) }}
                 </td>
                 <td class="text-right">
-                  {{ $grpo->where('project_code', $project)->count() > 0 &&  $po_sent->where('project_code', $project)->count() > 0 ? number_format($grpo->where('project_code', $project)->sum('item_amount') / $po_sent->where('project_code', $project)->sum('item_amount') * 100, 2) : '-' }}
+                  {{ number_format($item['percentage'] * 100, 2) }}
                 </td>
               </tr>
           @endforeach
           <tr>
             <th>Total</th>
-            <th class="text-right">{{ number_format($po_sent->sum('item_amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format($grpo->sum('item_amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ $grpo->sum('item_amount') > 0 && $po_sent->sum('item_amount') > 1 ? number_format(($grpo->sum('item_amount') / $po_sent->sum('item_amount')) * 100, 2) : '-' }}</th>
+            <th class="text-right">{{ number_format($grpo_daily['total_po_sent_amount'] / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format($grpo_daily['total_grpo_amount'] / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format($grpo_daily['total_percentage'] * 100, 2) }}</th>
           </tr>
         </tbody>
       </table>

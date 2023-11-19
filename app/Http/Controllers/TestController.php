@@ -13,7 +13,7 @@ class TestController extends Controller
 
     public function index()
     {
-        $test = app(NpiController::class)->index();
+        $test = app(GrpoIndexController::class)->index();
         return $test;
     }
 }

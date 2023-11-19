@@ -18,10 +18,10 @@
               <tr>
                 <td>{{ $item['project'] }}</td>
                 <td class="text-right">
-                  {{ number_format($item['incoming_qty'], 2) }}
+                  {{ number_format($item['incoming_qty'], 0) }}
                 </td>
                 <td class="text-right">
-                  {{ number_format($item['outgoing_qty'], 2) }}
+                  {{ number_format($item['outgoing_qty'], 0) }}
                 </td>
                 <td class="text-right">
                   {{ number_format($item['percentage'], 2) }}

@@ -28,7 +28,11 @@
   <!-- /.row -->
 
   @include('charts.budget')
-  @include('charts.npi')
+
+  <div class="row">
+    @include('charts.npi')
+    @include('charts.grpo')
+  </div>
 @endsection
 
 @section('scripts')

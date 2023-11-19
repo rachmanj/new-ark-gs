@@ -14,25 +14,25 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($projects as $project)
+          @foreach ($npi_daily['npi'] as $item)
               <tr>
-                <td>{{ $project }}</td>
+                <td>{{ $item['project'] }}</td>
                 <td class="text-right">
-                  {{ $incoming_qty->where('project_code', $project)->count() > 0 ? number_format($incoming_qty->where('project_code', $project)->sum('qty'), 0) : '-' }}
+                  {{ number_format($item['incoming_qty'], 2) }}
                 </td>
                 <td class="text-right">
-                  {{ $outgoing_qty->where('project_code', $project)->count() > 0 ? number_format($outgoing_qty->where('project_code', $project)->sum('qty'), 0) : '-' }}
+                  {{ number_format($item['outgoing_qty'], 2) }}
                 </td>
                 <td class="text-right">
-                  {{ $incoming_qty->where('project_code', $project)->count() > 0 && $outgoing_qty->where('project_code', $project)->count() > 0 ? number_format($incoming_qty->where('project_code', $project)->sum('qty') / $outgoing_qty->where('project_code', $project)->sum('qty'), 2) : '-' }}
+                  {{ number_format($item['percentage'], 2) }}
                 </td>
               </tr>
           @endforeach
           <tr>
             <th>Total</th>
-            <th class="text-right">{{ number_format($incoming_qty->sum('qty'), 0) }}</th>
-            <th class="text-right">{{ number_format($outgoing_qty->sum('qty'), 0) }}</th>
-            <th class="text-right">{{ number_format($incoming_qty->sum('qty') / $outgoing_qty->sum('qty'), 2) }}</th>
+            <th class="text-right">{{ number_format($npi_daily['total_incoming_qty'], 0) }}</th>
+            <th class="text-right">{{ number_format($npi_daily['total_outgoing_qty'], 0) }}</th>
+            <th class="text-right">{{ number_format($npi_daily['total_percentage'], 2) }}</th>
           </tr>
         </tbody>
       </table>

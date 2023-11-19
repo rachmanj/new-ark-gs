@@ -15,26 +15,28 @@ class DashboardDailyController extends Controller
 
     public function index()
     {
-        $po_sent_vs_budget = ($this->po_sent_amount()->sum('item_amount') / $this->plant_budget()->sum('amount')) * 100;
+        // $po_sent_vs_budget = ($this->po_sent_amount()->sum('item_amount') / $this->plant_budget()->sum('amount')) * 100;
         $po_sent_vs_grpo = $this->po_sent_amount()->sum('item_amount') > 0 && $this->grpo_amount()->sum('item_amount') > 0 ? ($this->grpo_amount()->sum('item_amount') / $this->po_sent_amount()->sum('item_amount')) * 100 : 0;
-        $npi = $this->incoming_qty()->sum('qty') / $this->outgoing_qty()->sum('qty');
+        // $npi = $this->incoming_qty()->sum('qty') / $this->outgoing_qty()->sum('qty');
         $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
         $capex_daily = app(CapexController::class)->capex_daily();
         $reguler_daily = app(CapexController::class)->reguler_daily();
+        $npi_daily = app(NpiController::class)->index();
          
         return view('dashboard.daily.index', [
             'report_date' => Carbon::now()->subDay()->format('d-M-Y'),
             'projects' => $projects,
-            'po_sent_vs_budget' => $po_sent_vs_budget,
+            // 'po_sent_vs_budget' => $po_sent_vs_budget,
             'po_sent_vs_grpo' => $po_sent_vs_grpo,
-            'npi' => $npi,
-            'plant_budget' => $this->plant_budget()->get(),
+            // 'npi' => $npi,
+            // 'plant_budget' => $this->plant_budget()->get(),
             'po_sent' => $this->po_sent_amount()->get(),
             'grpo' => $this->grpo_amount()->get(),
-            'incoming_qty' => $this->incoming_qty()->get(),
-            'outgoing_qty' => $this->outgoing_qty()->get(),
+            // 'incoming_qty' => $this->incoming_qty()->get(),
+            // 'outgoing_qty' => $this->outgoing_qty()->get(),
             'capex_daily' => $capex_daily,
-            'reguler_daily' => $reguler_daily
+            'reguler_daily' => $reguler_daily,
+            'npi_daily' => $npi_daily
         ]);
     }
 

@@ -17,15 +17,20 @@
   
           <p class="card-text">
             <h2><b>ARKA</b> Goal Setting</h2>
-            <hr>
-            <h5>Dashboard</h5>
+            Report Date : {{ \Carbon\Carbon::now()->subDay()->format('d-M-Y'), }}
           </p>
   
         </div>
       </div>
-  
     </div>
     <!-- /.col-md-6 -->
   </div>
   <!-- /.row -->
+
+  @include('charts.budget')
+@endsection
+
+@section('scripts')
+<script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
+@include('charts.budget-script')
 @endsection

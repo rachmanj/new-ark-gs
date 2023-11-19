@@ -28,9 +28,10 @@
   <!-- /.row -->
 
   @include('charts.budget')
+  @include('charts.npi')
 @endsection
 
 @section('scripts')
 <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
-@include('charts.budget-script')
+@include('charts.chart-script')
 @endsection

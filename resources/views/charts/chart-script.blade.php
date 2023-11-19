@@ -139,6 +139,72 @@
         })
 
 
+        // npi chart
+
+        let npis = {!! json_encode($npi_daily) !!}
+        let npiProjects = npis.map((item) => item.project);
+        let npiIncomingQty = npis.map((item) => item.incoming_qty);
+        let npiOutgoingQty = npis.map((item) => item.outgoing_qty);
+
+
+        var $npiChart = $('#npi-chart')
+
+        var npiChart = new Chart($npiChart, {
+          type: 'bar',
+          data: {
+            labels: npiProjects,
+            datasets: [
+              {
+                label: 'Incoming',
+                data: npiIncomingQty,
+                backgroundColor: '#ced4da'
+              },
+              {
+                label: 'Outgoing',
+                data: npiOutgoingQty,
+                backgroundColor: '#007bff'
+              }
+            ]
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {
+              mode: mode,
+              intersect: intersect
+            },
+            hover: {
+              mode: mode,
+              intersect: intersect
+            },
+            legend: {
+              display: true
+            },
+            scales: {
+              yAxes: [{
+                // display: false,
+                gridLines: {
+                  display: true,
+                  lineWidth: '4px',
+                  color: 'rgba(0, 0, 0, .2)',
+                  zeroLineColor: 'transparent'
+                },
+                ticks: $.extend({
+                  beginAtZero: true,
+                  suggestedMax: 200,
+                  
+                }, ticksStyle)
+              }],
+              xAxes: [{
+                display: true,
+                gridLines: {
+                  display: false
+                },
+                ticks: ticksStyle
+              }]
+            }
+          }
+        })
+
         
 
 

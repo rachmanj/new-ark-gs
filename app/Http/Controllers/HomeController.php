@@ -10,11 +10,13 @@ class HomeController extends Controller
     {
         $reguler_daily = app(CapexController::class)->reguler_daily()['reguler'];
         $capex_daily = app(CapexController::class)->capex_daily()['capex'];
+        $npi_daily = app(NpiController::class)->index()['npi'];
 
         // return $capex_daily;
         return view('home', compact([
             'reguler_daily',
             'capex_daily',
+            'npi_daily',
         ]));
     }
 }

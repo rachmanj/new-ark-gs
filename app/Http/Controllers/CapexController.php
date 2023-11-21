@@ -20,15 +20,23 @@ class CapexController extends Controller
     public function capex_daily()
     {
         $projects = $this->include_projects;
+        $date = Carbon::now()->subDay();
         
         foreach ($projects as $project) {
             $budget = $this->plant_budget()->where('project_code', $project)
                     ->where('budget_type_id', 8)
                     ->sum('amount');
 
-            $po_sent_amount = $this->po_sent_amount()->where('project_code', $project)
+            $po_sent_amount = $list = DB::table('powithetas')
+                            ->whereMonth('po_delivery_date', $date)
+                            ->where('po_status', '!=', 'Cancelled')
+                            ->where('po_delivery_status', 'Delivered')
+                            ->where('project_code', $project)
                             ->where('budget_type', 'CPX')
                             ->sum('item_amount');
+            // $po_sent_amount = $this->po_sent_amount()->where('project_code', $project)
+            //                 ->where('budget_type', 'CPX')
+            //                 ->sum('item_amount');
 
             // percentage of capex budget vs sent amount, if budget or sent amount is null
             if ($budget == 0 || $po_sent_amount == 0) {

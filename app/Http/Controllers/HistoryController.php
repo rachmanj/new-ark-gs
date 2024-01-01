@@ -11,7 +11,7 @@ class HistoryController extends Controller
     public function index()
     {
         // $projects = Http::get('http://localhost:5000/projects')->json()['data'];
-        $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $projects = ['017C', '021C', '022C', '023C', 'APS'];
 
         return view('history.index', compact('projects'));
     }

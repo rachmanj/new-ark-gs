@@ -72,6 +72,7 @@
                   <option value="grpo_amount">GRPO Amount</option>
                   <option value="incoming_qty">Incoming Inventory Qty</option>
                   <option value="outgoing_qty">Outgoing Inventory Qty</option>
+                  <option value="capex">Capex</option>
                 </select>
               </div>
               <div class="form-group">

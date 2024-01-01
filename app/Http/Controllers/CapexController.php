@@ -19,10 +19,9 @@ class CapexController extends Controller
 
     public function capex_daily()
     {
-        $projects = $this->include_projects;
         $date = Carbon::now()->subDay();
         
-        foreach ($projects as $project) {
+        foreach ($this->include_projects as $project) {
             $budget = $this->plant_budget()->where('project_code', $project)
                     ->where('budget_type_id', 8)
                     ->sum('amount');

@@ -14,25 +14,25 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($projects as $project)
+          @foreach ($data['grpo']['grpo'] as $item)
               <tr>
-                <td>{{ $project }}</td>
+                <td>{{ $item['project'] }}</td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'po_sent')->first()->amount / 1000, 2) : '' }}
+                  {{ number_format($item['po_sent_amount'] / 1000, 2) }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first()->amount / 1000, 2) : '' }}
+                  {{ number_format($item['grpo_amount'] / 1000, 2) }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first() &&  $histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'grpo_amount')->first()->amount / $histories->where('project_code', $project)->where('gs_type', 'po_sent')->first()->amount * 100, 2) : '' }}
+                  {{ number_format($item['percentage'] * 100, 2) }}
                 </td>
               </tr>
           @endforeach
           <tr>
             <th>Total</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'po_sent')->sum('amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'grpo_amount')->sum('amount') / 1000, 2) }}</th>
-            <th class="text-right">{{ $histories->where('project_code', $project)->where('gs_type', 'po_sent')->count() > 0 && $histories->where('gs_type', 'grpo_amount')->count() > 0 ? number_format(($histories->where('gs_type', 'grpo_amount')->sum('amount') / $histories->where('gs_type', 'po_sent')->sum('amount')) * 100, 2) : '-' }}</th>
+            <th class="text-right">{{ number_format($data['grpo']['total_po_sent_amount'] / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format($data['grpo']['total_grpo_amount'] / 1000, 2) }}</th>
+            <th class="text-right">{{ number_format($data['grpo']['total_percentage'] * 100, 2) }}</th>
           </tr>
         </tbody>
       </table>

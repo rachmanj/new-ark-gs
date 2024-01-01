@@ -1,13 +1,12 @@
 <div class="card card-info">
   <div class="card-header border-transparent">
-    <h3 class="card-title">NPI</h3>
+    <h3 class="card-title"><b>NPI</b></h3>
   </div>
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table m-0 table-striped">
         <thead>
           <tr>
-            <th>#</th>
             <th>Project</th>
             <th class="text-right">In</th>
             <th class="text-right">Out</th>
@@ -15,27 +14,25 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($projects as $project)
+          @foreach ($data['npi']['npi'] as $item)
               <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $project }}</td>
+                <td>{{ $item['project'] }}</td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first()->amount, 0) : '-' }}
+                  {{ number_format($item['incoming_qty'], 0) }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first()->amount, 0) : '-' }}
+                  {{ number_format($item['outgoing_qty'], 0) }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first() &&  $histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first()->amount / $histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first()->amount, 2) : '-' }}
+                  {{ number_format($item['percentage'], 2) }}
                 </td>
               </tr>
           @endforeach
           <tr>
-            <th></th>
             <th>Total</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'incoming_qty')->sum('amount'), 0) }}</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'outgoing_qty')->sum('amount'), 0) }}</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'incoming_qty')->sum('amount') / $histories->where('gs_type', 'outgoing_qty')->sum('amount'), 2) }}</th>
+            <th class="text-right">{{ number_format($data['npi']['total_incoming_qty'], 0) }}</th>
+            <th class="text-right">{{ number_format($data['npi']['total_outgoing_qty'], 0) }}</th>
+            <th class="text-right">{{ number_format($data['npi']['total_percentage'], 2) }}</th>
           </tr>
         </tbody>
       </table>

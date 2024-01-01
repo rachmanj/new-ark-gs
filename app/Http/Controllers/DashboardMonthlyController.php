@@ -16,12 +16,14 @@ class DashboardMonthlyController extends Controller
     public function display(Request $request)
     {
         $projects = ['011C', '017C', '021C', '022C', '023C', 'APS'];
+        $data = app(MonthlyHistoryController::class)->index($request->month);
 
-        return view('dashboard.monthly.display', [
+        return view('dashboard.monthly.new_display', [
             'month' => $request->month,
-            'projects' => $projects,
-            'plant_budget' => $this->plant_budget($request->month),
-            'histories' => $this->monthly_history_amount($request->month),
+            // 'projects' => $projects,
+            // 'plant_budget' => $this->plant_budget($request->month),
+            // 'histories' => $this->monthly_history_amount($request->month),
+            'data' => $data,
         ]);
     }
 

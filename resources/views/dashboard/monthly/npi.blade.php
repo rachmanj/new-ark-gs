@@ -14,25 +14,25 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($projects as $project)
+          @foreach ($data['npi']['npi'] as $item)
               <tr>
-                <td>{{ $project }}</td>
+                <td>{{ $item['project'] }}</td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first()->amount, 0) : '' }}
+                  {{ number_format($item['incoming_qty'], 0) }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first()->amount, 0) : '' }}
+                  {{ number_format($item['outgoing_qty'], 0) }}
                 </td>
                 <td class="text-right">
-                  {{ $histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first() &&  $histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first() ? number_format($histories->where('project_code', $project)->where('gs_type', 'incoming_qty')->first()->amount / $histories->where('project_code', $project)->where('gs_type', 'outgoing_qty')->first()->amount, 2) : '' }}
+                  {{ number_format($item['percentage'], 2) }}
                 </td>
               </tr>
           @endforeach
           <tr>
             <th>Total</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'incoming_qty')->sum('amount'), 0) }}</th>
-            <th class="text-right">{{ number_format($histories->where('gs_type', 'outgoing_qty')->sum('amount'), 0) }}</th>
-            <th class="text-right">{{ $histories->where('gs_type', 'incoming_qty')->count() > 0 && $histories->where('gs_type', 'outgoing_qty')->count() > 0 ? number_format($histories->where('gs_type', 'incoming_qty')->sum('amount') / $histories->where('gs_type', 'outgoing_qty')->sum('amount'), 2) : '-' }}</th>
+            <th class="text-right">{{ number_format($data['npi']['total_incoming_qty'], 0) }}</th>
+            <th class="text-right">{{ number_format($data['npi']['total_outgoing_qty'], 0) }}</th>
+            <th class="text-right">{{ number_format($data['npi']['total_percentage'], 2) }}</th>
           </tr>
         </tbody>
       </table>

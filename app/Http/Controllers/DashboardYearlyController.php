@@ -14,6 +14,7 @@ class DashboardYearlyController extends Controller
                 ->where('periode', 'yearly')
                 ->whereYear('date', '<', Carbon::now())
                 ->distinct('date')
+                ->orderBy('date', 'desc')
                 ->get();
 
         return view('dashboard.yearly.index', compact('years'));
@@ -29,6 +30,7 @@ class DashboardYearlyController extends Controller
                 ->where('periode', 'yearly')
                 ->whereYear('date', '<', Carbon::now())
                 ->distinct('date')
+                ->orderBy('date', 'desc')
                 ->get();
 
         if ($request->year !== 'this_year') {

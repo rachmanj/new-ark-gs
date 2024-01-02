@@ -34,9 +34,10 @@
                 <label for="gs_type">GS Type</label>
                 <select name="gs_type" id="gs_type" class="form-control">
                   <option value="po_sent" {{ $history->gs_type === 'po_sent' ? 'selected' : '' }}>PO Sent Amount</option>
-                  <option value="grpo_amount" {{ $history->gs_type === 'grpo_amount' ? '' : 'selected' }}>GRPO Amount</option>
-                  <option value="incoming_qty" {{ $history->gs_type === 'incoming_qty' ? '' : 'selected' }}>Incoming Inventory Qty</option>
-                  <option value="outgoing_qty" {{ $history->gs_type === 'outgoing_qty' ? '' : 'selected' }}>Outgoing Inventory Qty</option>
+                  <option value="capex" {{ $history->gs_type === 'capex' ? 'selected' : '' }}>Capex Amount</option>
+                  <option value="grpo_amount" {{ $history->gs_type === 'grpo_amount' ? 'selected' : '' }}>GRPO Amount</option>
+                  <option value="incoming_qty" {{ $history->gs_type === 'incoming_qty' ? 'selected' : '' }}>Incoming Inventory Qty</option>
+                  <option value="outgoing_qty" {{ $history->gs_type === 'outgoing_qty' ? 'selected' : '' }}>Outgoing Inventory Qty</option>
                 </select>
               </div>
               <div class="form-group">

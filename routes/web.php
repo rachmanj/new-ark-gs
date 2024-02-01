@@ -50,14 +50,14 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/daily', [DashboardDailyController::class, 'index'])->name('daily.index');
-    
+
         Route::get('/monthly', [DashboardMonthlyController::class, 'index'])->name('monthly.index');
         Route::post('/monthly', [DashboardMonthlyController::class, 'display'])->name('monthly.display');
-    
+
         Route::get('/yearly', [DashboardYearlyController::class, 'index'])->name('yearly.index');
         Route::post('/yearly', [DashboardYearlyController::class, 'display'])->name('yearly.display');
         Route::get('/yearly/test', [DashboardYearlyController::class, 'test'])->name('yearly.test');
-    
+
         Route::get('/other', [DashboardOtherController::class, 'index'])->name('other.index');
         Route::get('/other-grpo', [DashboardOtherController::class, 'grpo'])->name('other.grpo');
         Route::get('/other-test', [DashboardOtherController::class, 'test'])->name('other.test');
@@ -113,12 +113,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('budget/data', [BudgetController::class, 'data'])->name('budget.data');
     Route::resource('budget', BudgetController::class);
+    Route::post('budget/copy', [BudgetController::class, 'copy_budget'])->name('budget.copy_budget');
 
     Route::get('budget_type/data', [BudgetTypeController::class, 'data'])->name('budget_type.data');
     Route::resource('budget_type', BudgetTypeController::class);
 
     Route::get('history/data', [HistoryController::class, 'data'])->name('history.data');
     Route::resource('history', HistoryController::class);
+    Route::post('history/generate-monthly', [HistoryController::class, 'generate_monthly'])->name('history.generate_monthly');
 
     Route::get('/test', [TestController::class, 'index'])->name('index');
 });

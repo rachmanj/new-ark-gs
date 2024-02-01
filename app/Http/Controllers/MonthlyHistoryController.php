@@ -12,8 +12,6 @@ class MonthlyHistoryController extends Controller
 
     public function index($date)
     {
-       
-
         $montly = [
             'date' => $date,
             'reguler' => $this->reguler_history_monthly($date),
@@ -32,8 +30,8 @@ class MonthlyHistoryController extends Controller
 
         foreach ($this->include_projects as $project) {
             $budget =  $this->plant_budget_history_monthly($date, $project)
-                    ->where('budget_type_id', 2)
-                    ->first();
+                ->where('budget_type_id', 2)
+                ->first();
 
             if ($budget) {
                 $budget = $budget->amount;
@@ -42,12 +40,12 @@ class MonthlyHistoryController extends Controller
             }
 
             $po_sent_amount = History::select('amount', 'project_code')
-                    ->where('periode', 'monthly')
-                    ->where('project_code', $project)
-                    ->where('gs_type', 'po_sent')
-                    ->whereYear('date', $year)
-                    ->whereMonth('date', $month)
-                    ->first();
+                ->where('periode', 'monthly')
+                ->where('project_code', $project)
+                ->where('gs_type', 'po_sent')
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->first();
 
             if ($po_sent_amount) {
                 $po_sent_amount = $po_sent_amount->amount;
@@ -60,14 +58,13 @@ class MonthlyHistoryController extends Controller
             } else {
                 $percentage = $po_sent_amount / $budget;
             }
-            
+
             $reguler[] = [
                 'project' => $project,
                 'budget' => $budget,
                 'sent_amount' => $po_sent_amount,
                 'percentage' => $percentage
             ];
-
         }
 
         $total_budget = array_sum(array_column($reguler, 'budget'));
@@ -86,7 +83,7 @@ class MonthlyHistoryController extends Controller
             'sent_total' => $total_sent,
             'percentage' => $percentage
         ];
-        
+
 
         return $result;
     }
@@ -98,8 +95,8 @@ class MonthlyHistoryController extends Controller
 
         foreach ($this->include_projects as $project) {
             $budget =  $this->plant_budget_history_monthly($date, $project)
-                    ->where('budget_type_id', 8)
-                    ->first();
+                ->where('budget_type_id', 8)
+                ->first();
 
             if ($budget) {
                 $budget = $budget->amount;
@@ -108,12 +105,12 @@ class MonthlyHistoryController extends Controller
             }
 
             $po_sent_amount = History::select('amount', 'project_code')
-                    ->where('periode', 'monthly')
-                    ->where('project_code', $project)
-                    ->where('gs_type', 'capex')
-                    ->whereYear('date', $year)
-                    ->whereMonth('date', $month)
-                    ->first();
+                ->where('periode', 'monthly')
+                ->where('project_code', $project)
+                ->where('gs_type', 'capex')
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->first();
 
             if ($po_sent_amount) {
                 $po_sent_amount = $po_sent_amount->amount;
@@ -126,14 +123,13 @@ class MonthlyHistoryController extends Controller
             } else {
                 $percentage = $po_sent_amount / $budget;
             }
-            
+
             $capex[] = [
                 'project' => $project,
                 'budget' => $budget,
                 'sent_amount' => $po_sent_amount,
                 'percentage' => $percentage
             ];
-
         }
 
         $total_budget = array_sum(array_column($capex, 'budget'));
@@ -152,7 +148,7 @@ class MonthlyHistoryController extends Controller
             'sent_total' => $total_sent,
             'percentage' => $percentage
         ];
-        
+
         return $result;
     }
 
@@ -175,19 +171,19 @@ class MonthlyHistoryController extends Controller
         foreach ($this->include_projects as $project) {
             $gs_types_includes = ['po_sent', 'capex'];
             $po_sent_amount = History::select('amount', 'project_code')
-                    ->where('periode', 'monthly')
-                    ->where('project_code', $project)
-                    ->whereIn('gs_type', $gs_types_includes)
-                    ->whereYear('date', $year)
-                    ->whereMonth('date', $month)
-                    ->sum('amount');
-            
+                ->where('periode', 'monthly')
+                ->where('project_code', $project)
+                ->whereIn('gs_type', $gs_types_includes)
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->sum('amount');
+
             $grpo_amount = History::where('periode', 'monthly')
-                        ->where('project_code', $project)
-                        ->whereYear('date', $year)
-                        ->whereMonth('date', $month)
-                        ->where('gs_type', 'grpo_amount')
-                        ->first();
+                ->where('project_code', $project)
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->where('gs_type', 'grpo_amount')
+                ->first();
 
             if ($grpo_amount) {
                 $grpo_amount = $grpo_amount->amount;
@@ -219,7 +215,7 @@ class MonthlyHistoryController extends Controller
         } else {
             $total_percentage = $total_grpo_amount / $total_po_sent_amount;
         }
-        
+
         $result = [
             'grpo' => $grpos,
             'total_grpo_amount' => $total_grpo_amount,
@@ -237,64 +233,63 @@ class MonthlyHistoryController extends Controller
 
         foreach ($this->include_projects as $project) {
             $incoming_qty = History::where('gs_type', 'incoming_qty')
-                            ->where('periode', 'monthly')
-                            ->where('project_code', $project)
-                            ->whereYear('date', $year)
-                            ->whereMonth('date', $month)
-                            ->first();
+                ->where('periode', 'monthly')
+                ->where('project_code', $project)
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->first();
 
             if ($incoming_qty) {
                 $incoming_qty = $incoming_qty->amount;
             } else {
                 $incoming_qty = 0;
             }
-         
+
             $outgoing_qty = History::where('gs_type', 'outgoing_qty')
-                            ->where('periode', 'monthly')
-                            ->where('project_code', $project)
-                            ->whereYear('date', $year)
-                            ->whereMonth('date', $month)
-                            ->first();
+                ->where('periode', 'monthly')
+                ->where('project_code', $project)
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->first();
 
             if ($outgoing_qty) {
                 $outgoing_qty = $outgoing_qty->amount;
             } else {
                 $outgoing_qty = 0;
             }
-        
-             // percentage of incoming qty vs outgoing qty, if incoming qty or outgoing qty is null
-             if ($incoming_qty == 0 || $outgoing_qty == 0) {
-                 $percentage = 0;
-             } else {
-                 $percentage = $incoming_qty / $outgoing_qty;
-             }
-             
-             $npi[] = [
-                 'project' => $project,
-                 'incoming_qty' => $incoming_qty,
-                 'outgoing_qty' => $outgoing_qty,
-                 'percentage' => $percentage
-             ];
- 
-         };
- 
-         $total_incoming_qty = array_sum(array_column($npi, 'incoming_qty'));
-         $total_outgoing_qty = array_sum(array_column($npi, 'outgoing_qty'));
- 
+
+            // percentage of incoming qty vs outgoing qty, if incoming qty or outgoing qty is null
+            if ($incoming_qty == 0 || $outgoing_qty == 0) {
+                $percentage = 0;
+            } else {
+                $percentage = $incoming_qty / $outgoing_qty;
+            }
+
+            $npi[] = [
+                'project' => $project,
+                'incoming_qty' => $incoming_qty,
+                'outgoing_qty' => $outgoing_qty,
+                'percentage' => $percentage
+            ];
+        };
+
+        $total_incoming_qty = array_sum(array_column($npi, 'incoming_qty'));
+        $total_outgoing_qty = array_sum(array_column($npi, 'outgoing_qty'));
+
         // percentage of total incoming qty vs total outgoing qty, if incoming qty or outgoing qty is null
-         if ($total_incoming_qty == 0 || $total_outgoing_qty == 0) {
-             $percentage = 0;
-         } else {
-             $percentage = $total_incoming_qty / $total_outgoing_qty;
-         }
- 
-         $result = [
-             'npi' => $npi,
-             'total_incoming_qty' => $total_incoming_qty,
-             'total_outgoing_qty' => $total_outgoing_qty,
-             'total_percentage' => $percentage
-         ];
- 
-         return $result;
+        if ($total_incoming_qty == 0 || $total_outgoing_qty == 0) {
+            $percentage = 0;
+        } else {
+            $percentage = $total_incoming_qty / $total_outgoing_qty;
+        }
+
+        $result = [
+            'npi' => $npi,
+            'total_incoming_qty' => $total_incoming_qty,
+            'total_outgoing_qty' => $total_outgoing_qty,
+            'total_percentage' => $percentage
+        ];
+
+        return $result;
     }
 }

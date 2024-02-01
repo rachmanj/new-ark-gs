@@ -20,19 +20,19 @@ class CapexController extends Controller
     public function capex_daily()
     {
         $date = Carbon::now()->subDay();
-        
+
         foreach ($this->include_projects as $project) {
             $budget = $this->plant_budget()->where('project_code', $project)
-                    ->where('budget_type_id', 8)
-                    ->sum('amount');
+                ->where('budget_type_id', 8)
+                ->sum('amount');
 
-            $po_sent_amount = $list = DB::table('powithetas')
-                            ->whereMonth('po_delivery_date', $date)
-                            ->where('po_status', '!=', 'Cancelled')
-                            ->where('po_delivery_status', 'Delivered')
-                            ->where('project_code', $project)
-                            ->where('budget_type', 'CPX')
-                            ->sum('item_amount');
+            $po_sent_amount = DB::table('powithetas')
+                ->whereMonth('po_delivery_date', $date)
+                ->where('po_status', '!=', 'Cancelled')
+                ->where('po_delivery_status', 'Delivered')
+                ->where('project_code', $project)
+                ->where('budget_type', 'CPX')
+                ->sum('item_amount');
             // $po_sent_amount = $this->po_sent_amount()->where('project_code', $project)
             //                 ->where('budget_type', 'CPX')
             //                 ->sum('item_amount');
@@ -61,7 +61,7 @@ class CapexController extends Controller
         } else {
             $percentage = $total_sent / $total_budget;
         }
-        
+
         $result = [
             'capex' => $capex,
             'budget_total' => $total_budget,
@@ -75,25 +75,25 @@ class CapexController extends Controller
     public function reguler_daily()
     {
         $projects = $this->include_projects;
-        
+
         foreach ($projects as $project) {
             $budget = $this->plant_budget()->where('project_code', $project)
-                    ->where('budget_type_id', 2)
-                    ->sum('amount');
+                ->where('budget_type_id', 2)
+                ->sum('amount');
 
             $pos = $this->po_sent_amount()->where('project_code', $project);
 
             $po_sent_amount = $pos->where(function ($query) {
                 $query->whereNull('budget_type')
-                      ->orWhere('budget_type', 'REG');
-                    })->sum('item_amount');
+                    ->orWhere('budget_type', 'REG');
+            })->sum('item_amount');
 
             // percentage of capex budget vs sent amount, if budget or sent amount is null
             if ($budget == 0 || $po_sent_amount == 0) {
                 $percentage = 0;
             } else {
                 $percentage = $po_sent_amount / $budget;
-            }      
+            }
 
             $reguler[] = [
                 'project' => $project,
@@ -101,7 +101,6 @@ class CapexController extends Controller
                 'sent_amount' => $po_sent_amount,
                 'percentage' => $percentage
             ];
-            
         };
 
         $total_budget = array_sum(array_column($reguler, 'budget'));
@@ -149,7 +148,7 @@ class CapexController extends Controller
             ->whereMonth('po_delivery_date', $date)
             ->where('po_status', '!=', 'Cancelled')
             ->where('po_delivery_status', 'Delivered');
-            
+
         return $list;
     }
 }

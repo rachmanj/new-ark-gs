@@ -134,7 +134,7 @@ class CapexController extends Controller
     public function po_sent_amount()
     {
         $date = Carbon::now()->subDay();
-        $incl_deptcode = ['40', '50', '60', '140'];
+        $incl_deptcode = ['40', '50', '60', '140', '200'];
         $projects = $this->include_projects;
 
         $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 

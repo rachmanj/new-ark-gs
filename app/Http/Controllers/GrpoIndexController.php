@@ -13,20 +13,13 @@ class GrpoIndexController extends Controller
     public function index()
     {
         $projects = $this->include_projects;
-        
-        foreach ($projects as $project) {
-            $po_sent_amount = app(CapexController::class)->po_sent_amount()->where('project_code', $project)
-                            ->sum('item_amount');
-            
-            $grpo_amount = $this->grpo_amount()->where('project_code', $project)
-                        ->sum('item_amount');
+        $grpos = [];
 
-            // percentage of capex budget vs sent amount, if budget or sent amount is null
-            if ($po_sent_amount == 0 || $grpo_amount == 0) {
-                $percentage = 0;
-            } else {
-                $percentage = $grpo_amount / $po_sent_amount;
-            }
+        foreach ($projects as $project) {
+            $po_sent_amount = $this->getPoSentAmount($project);
+            $grpo_amount = $this->getGrpoAmount($project);
+
+            $percentage = ($po_sent_amount == 0 || $grpo_amount == 0) ? 0 : $grpo_amount / $po_sent_amount;
 
             $grpos[] = [
                 'project' => $project,
@@ -34,45 +27,46 @@ class GrpoIndexController extends Controller
                 'po_sent_amount' => $po_sent_amount,
                 'percentage' => $percentage
             ];
-        };
+        }
 
         $total_grpo_amount = array_sum(array_column($grpos, 'grpo_amount'));
         $total_po_sent_amount = array_sum(array_column($grpos, 'po_sent_amount'));
+        $total_percentage = ($total_grpo_amount == 0 || $total_po_sent_amount == 0) ? 0 : $total_grpo_amount / $total_po_sent_amount;
 
-        // percentage of capex budget vs sent amount, if budget or sent amount is null
-        if ($total_grpo_amount == 0 || $total_po_sent_amount == 0) {
-            $total_percentage = 0;
-        } else {
-            $total_percentage = $total_grpo_amount / $total_po_sent_amount;
-        }
-        
-        $result = [
+        return [
             'grpo_daily' => $grpos,
             'total_grpo_amount' => $total_grpo_amount,
             'total_po_sent_amount' => $total_po_sent_amount,
             'total_percentage' => $total_percentage
         ];
-
-        return $result;
     }
 
-    public function grpo_amount()
+    private function getPoSentAmount($project)
+    {
+        return app(CapexController::class)->po_sent_amount()
+            ->where('project_code', $project)
+            ->sum('item_amount');
+    }
+
+    private function getGrpoAmount($project)
     {
         $date = Carbon::now()->subDay();
-        $projects = $this->include_projects;
-        $incl_deptcode = ['40', '50', '60', '140'];
-        $excl_itemcode = ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']; // , 
-        foreach ($excl_itemcode as $e) {
-            $excl_itemcode_arr[] = ['item_code', 'not like', $e];
-        };
+        $excl_itemcode_arr = array_map(function ($e) {
+            return ['item_code', 'not like', $e];
+        }, ['EX%', 'FU%', 'PB%', 'Pp%', 'SA%', 'SO%', 'SV%']);
 
-        $list = Grpo::whereMonth('po_delivery_date', $date)
-            ->whereMonth('grpo_date', $date)
+        return Grpo::whereMonth('po_delivery_date', $date->month)
+            ->whereYear('po_delivery_date', $date->year)
+            ->whereMonth('grpo_date', $date->month)
+            ->whereYear('grpo_date', $date->year)
             ->where('po_delivery_status', 'Delivered')
-            ->whereIn('project_code', $projects)
-            ->whereIn('dept_code', $incl_deptcode)
-            ->where($excl_itemcode_arr);
-
-        return $list;
+            ->where('project_code', $project)
+            ->whereIn('dept_code', ['40', '50', '60', '140', '200'])
+            ->where(function ($query) use ($excl_itemcode_arr) {
+                foreach ($excl_itemcode_arr as $condition) {
+                    $query->where($condition[0], $condition[1], $condition[2]);
+                }
+            })
+            ->sum('item_amount');
     }
 }
